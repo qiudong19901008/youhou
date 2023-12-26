@@ -1,0 +1,27 @@
+{
+  "name": "youhou",
+  "version": "1.0.0",
+  "description": "",
+  "main": "rollup.config.js",
+  "type": "module",
+  "scripts": {
+    "pregit": "git pull",
+    "git": "git add . && git commit -m'1'",
+    "postgit": "git push",
+    "excel": "rollup --config rollup.config.js",
+    "clear": "rm -rf dist/",
+    "build": "npm run clear && rollup -c"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@open-wc/building-rollup": "^3.0.1",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "deepmerge": "^4.3.1",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.25.1",
+    "rollup-plugin-dts": "^5.3.0",
+    "tslib": "^2.6.1",
+    "typescript": "^5.1.6"
+  }
+}
