@@ -1,3 +1,4 @@
+import Base from "./Base";
 
 
 interface SearchEngineType{
@@ -6,7 +7,7 @@ interface SearchEngineType{
 }
 
 
-export default class OtherPlatformSearcher{
+export default class OtherPlatformSearcher extends Base{
 
     private _searchEngines:SearchEngineType[] = [
         {name: "搜百度", url: "https://www.baidu.com/s?wd=" },
@@ -17,6 +18,7 @@ export default class OtherPlatformSearcher{
     ];
 
     constructor(){
+        super();
         const channelList = document.querySelector(".channel-list");
         if(!channelList){
             return;
@@ -26,13 +28,13 @@ export default class OtherPlatformSearcher{
     }
 
     // 获取搜索关键词
-    private _getSearchKeyword = ()=> {
-        var keywordInput = document.querySelector('.input-box input.search-input') as HTMLInputElement|null;
-        if (!keywordInput) {
-            return '';
-        }
-        return keywordInput.value.trim();
-    }
+    // private _getSearchKeyword = ()=> {
+    //     var keywordInput = document.querySelector('.input-box input.search-input') as HTMLInputElement|null;
+    //     if (!keywordInput) {
+    //         return '';
+    //     }
+    //     return keywordInput.value.trim();
+    // }
 
     private _createStyleEle = ()=>{
         // 添加搜索按钮样式
@@ -61,7 +63,7 @@ export default class OtherPlatformSearcher{
         button.href = "javascript:void(0);";
         // 设置初始链接为javascript:void(0);
         button.addEventListener("click", () => {
-            const keyword = this._getSearchKeyword();
+            const keyword = this.getSearchKeyword();
             if (keyword) {
                 // 在新窗口或标签页中打开搜索引擎链接
                 var url = engine.url + encodeURIComponent(keyword); 

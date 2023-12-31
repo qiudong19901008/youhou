@@ -1,3 +1,4 @@
+import Base from "./Base";
 
 
 type RowType = [
@@ -14,7 +15,7 @@ interface DataExporterConfigType{
     noteElementFlagAttr?:string,
 }
 
-export default class DataExporter{
+export default class DataExporter extends Base{
 
     private _countElement:HTMLDivElement;
     private _downloadBtn:HTMLButtonElement;
@@ -27,13 +28,15 @@ export default class DataExporter{
 
 
     constructor(config:DataExporterConfigType){
+        super();
         const noteElementFlagAttr = config.noteElementFlagAttr?config.noteElementFlagAttr:'data-v-12cf638b';
         const filename = config.filename?config.filename:''
        //
        this._countElement = this._createCountElement();
        
        //
-       this._downloadBtn = this._creatDownloadBtn(filename);
+    //    const keyword = ;
+       this._downloadBtn = this._creatDownloadBtn(this.getSearchKeyword());
        
         // 添加表头
        this._data.push(['笔记标题', '笔记链接', '作者', '作者链接', '点赞数']);
