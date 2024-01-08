@@ -111,7 +111,8 @@ export default class DataExporter extends Base{
     
      // 提取笔记内容数据
      private _extractNoteData = (noteElementFlagAttr:string) => {
-        const noteElements = document.querySelectorAll(`div[${noteElementFlagAttr}]`);
+        // const noteElements = document.querySelectorAll(`div[${noteElementFlagAttr}]`);
+        const noteElements = document.querySelectorAll(`section.note-item > div`);
         noteElements.forEach((ele) => {
             this._extractOneNote(ele);   
         });
