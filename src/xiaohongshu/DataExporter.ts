@@ -34,8 +34,7 @@ export default class DataExporter extends Base{
        //
        this._countElement = this._createCountElement();
        
-       //
-    //    const keyword = ;
+
        this._downloadBtn = this._creatDownloadBtn(this.getSearchKeyword());
        
         // 添加表头
