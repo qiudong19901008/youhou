@@ -136,7 +136,9 @@ export default class DataExporter extends Base{
         // 提取作者和作者链接
         const authorElement = ele.querySelector('div.author-wrapper a.author') as HTMLAnchorElement;
         const authorSpanEle = authorElement.querySelector('span.name') as HTMLSpanElement;
-        const author = authorElement ? authorSpanEle.innerText : '';
+        let author = authorElement ? authorSpanEle.innerText : '';
+         // 把#号替换掉，防止csv导出错误
+        author = author.replace(/#/g,'jin');
         const authorLink = authorElement ? 'https://www.xiaohongshu.com' + authorElement.getAttribute('href') : '';
         // 提取点赞数
         const likeElement = ele.querySelector('span.like-wrapper span.count') as HTMLSpanElement;
