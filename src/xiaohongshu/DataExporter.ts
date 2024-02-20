@@ -129,6 +129,7 @@ export default class DataExporter extends Base{
         let title = titleElement ? titleElement.innerText : '';
         // 把#号替换掉，防止csv导出错误
         title = title.replace(/#/g,'jin');
+        title = title.replace(/,/g, 'douhao')
         const noteLink = titleElement ? 'https://www.xiaohongshu.com' + titleElement.closest('a.title')?.getAttribute('href') : '';
         if(this._extractedLinks.has(noteLink)){
             return;
@@ -139,6 +140,7 @@ export default class DataExporter extends Base{
         let author = authorElement ? authorSpanEle.innerText : '';
          // 把#号替换掉，防止csv导出错误
         author = author.replace(/#/g,'jin');
+        author = author.replace(/,/g, 'douhao')
         const authorLink = authorElement ? 'https://www.xiaohongshu.com' + authorElement.getAttribute('href') : '';
         // 提取点赞数
         const likeElement = ele.querySelector('span.like-wrapper span.count') as HTMLSpanElement;
