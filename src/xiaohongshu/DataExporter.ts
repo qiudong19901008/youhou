@@ -27,6 +27,18 @@ export default class DataExporter extends Base{
     private _count = 0;
 
 
+    private _getFilename(){
+        let res = this.getSearchKeyword();
+        if(!res){
+            const authorNameDiv = document.querySelector('#userPageContainer .user-name') as HTMLDivElement|null;
+            if (authorNameDiv) {
+                console.log(authorNameDiv.textContent)
+                res = authorNameDiv.textContent?authorNameDiv.textContent.trim():'';            
+            }
+        }
+        return res?res:'下载';
+    }
+
     constructor(config:DataExporterConfigType){
         super();
         const noteElementFlagAttr = config.noteElementFlagAttr?config.noteElementFlagAttr:'data-v-12cf638b';
@@ -35,7 +47,7 @@ export default class DataExporter extends Base{
        this._countElement = this._createCountElement();
        
 
-       this._downloadBtn = this._creatDownloadBtn(this.getSearchKeyword());
+       this._downloadBtn = this._creatDownloadBtn(this._getFilename());
        
         // 添加表头
        this._data.push(['笔记标题', '笔记链接', '作者', '作者链接', '点赞数']);
