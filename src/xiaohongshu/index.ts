@@ -9,14 +9,15 @@
 // @grant        none
 // ==/UserScript==
 
-import DataExporter from "./DataExporter";
+import DataExporterContext, { DataExporterTypeEnum } from "../DataExporter";
 import OtherPlatformSearcher from "./OtherPlatformSearcher";
 
 (function() {
     
     'use strict';
     if(window.location.href.includes('/search_result') || window.location.href.includes('/profile/')){
-        new DataExporter({})
+        // new DataExporter({})
+        new DataExporterContext(DataExporterTypeEnum.小红书);
     }
 
     if (window.location.href.includes('/search_result')) {

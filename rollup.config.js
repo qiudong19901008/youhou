@@ -18,6 +18,23 @@ const config = [
             })
         ]
     },
+
+    //2
+    {
+        input: 'src/douyin/index.ts',
+        output: [
+            {
+                file: './dist/dist_douyin.js',
+                // format: 'es',
+                // sourcemap: true,
+            }
+        ],
+        plugins: [
+            typescript({
+                tsconfig: './tsconfig.json'
+            })
+        ]
+    },
    
 ]
 
