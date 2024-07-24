@@ -15,7 +15,7 @@ export default abstract class BaseDataExporter extends Base{
     constructor(){
         super();
         // 添加表头
-        this.rows.push(['笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规']);
+        this.rows.push(['笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规','播放时长']);
         // 第一次加载，提取笔记内容数据
         this._extractNoteData();
         // 监听页面滚动事件，当加载更多内容时，提取更多数据
@@ -56,7 +56,9 @@ export default abstract class BaseDataExporter extends Base{
         const authorName = this._pureStr(this.getAuthorName(ele));
         const authorUrl = this.getAuthorUrl(ele);
         const likeCountStr = this.getLikeCountStr(ele);
-        const illegal = this.getIllegal(ele);        
+        const illegal = this.getIllegal(ele);  
+        const durationSeconds = this.getDurationSecondsStr(ele);
+        
         // 将提取的数据添加到数组中
         this.rows.push([
             title?title:'无',
@@ -64,7 +66,8 @@ export default abstract class BaseDataExporter extends Base{
             authorName?authorName:'无',
             authorUrl?authorUrl:'无',
             likeCountStr,
-            illegal
+            illegal,
+            durationSeconds
         ]);
         // 将笔记链接添加到已提取的链接集合中
         this.extractedLinks.add(url);
@@ -82,7 +85,7 @@ export default abstract class BaseDataExporter extends Base{
     protected abstract getAuthorUrl(ele:Element):string;
     protected abstract getLikeCountStr(ele:Element):string;
     protected abstract getIllegal(ele:Element):string;
-
+    protected abstract getDurationSecondsStr(ele:Element):string;
 
 
 

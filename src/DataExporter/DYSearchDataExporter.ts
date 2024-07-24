@@ -8,7 +8,7 @@ export default class DYSearchDataExporter extends Base{
     constructor(){
         super();      
     }
-// data-e2e="searchbar-input"
+
     // 第一部分
     protected tryGetSearchPageSearchKeywords(){
         const keywordInputEle = document.querySelector('#douyin-header input[data-e2e="searchbar-input"]') as HTMLInputElement|null;
@@ -31,11 +31,10 @@ export default class DYSearchDataExporter extends Base{
         return res;
     }
     protected getTitle(ele:Element){
-        // 提取标题和笔记链接
-        // const titleElement = ele.querySelector('a > div >') as HTMLSpanElement;
-        // let title = titleElement ? titleElement.innerText : '';
-        // return title;
-        return ''
+        // 提取标题
+        const titleElement = ele.querySelector('a > div > div:nth-child(2) > div > div:nth-child(1)') as HTMLElement;
+        let title = titleElement ? titleElement.innerText : '';
+        return title;
     }
 
     protected getUrl(ele:Element){
@@ -49,16 +48,13 @@ export default class DYSearchDataExporter extends Base{
 
     protected getAuthorName(ele:Element){
         // 提取作者和作者链接
-        // const authorElement = ele.querySelector('.footer div.author-wrapper a.author') as HTMLAnchorElement;
+        const authorElement = ele.querySelector('a > div > div:nth-child(2) > div > div:nth-child(2) > span:nth-child(1) > span:nth-child(2)') as HTMLElement;
 
-        // if(!authorElement){
-        //     return '未知';
-        // }
-
-        // const authorSpanEle = authorElement.querySelector('span.name') as HTMLSpanElement;
-        // let author = authorElement ? authorSpanEle.innerText : '';
-        // return author;
-        return ''
+        if(!authorElement){
+            return '未知';
+        }
+        let author = authorElement ? authorElement.innerText : '';
+        return author;
     }
 
     protected getAuthorUrl(ele:Element){
@@ -69,21 +65,21 @@ export default class DYSearchDataExporter extends Base{
     }
 
     protected getLikeCountStr(ele:Element){
-        // const likeElement = ele.querySelector('span.like-wrapper span.count') as HTMLSpanElement;
-        // let likeCountStr = likeElement ? likeElement.innerText : '';
-        // if(likeCountStr.endsWith('w')){
-        //     const likeCount = parseFloat(likeCountStr.replace('w','')) * 10000;
-        //     likeCountStr = likeCount +'';
-        // }
-        // if(likeCountStr.endsWith('万')){
-        //     const likeCount = parseFloat(likeCountStr.replace('万','')) * 10000;
-        //     likeCountStr = likeCount +'';
-        // }
-        // if(likeCountStr === '赞'){
-        //     likeCountStr = '0';
-        // }
-        // return likeCountStr;
-        return '0'
+
+        const likeElement = ele.querySelector('a > div > div.videoImage > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > span') as HTMLSpanElement;
+        let likeCountStr = likeElement ? likeElement.innerText : '';
+        if(likeCountStr.endsWith('w')){
+            const likeCount = parseFloat(likeCountStr.replace('w','')) * 10000;
+            likeCountStr = likeCount +'';
+        }
+        if(likeCountStr.endsWith('万')){
+            const likeCount = parseFloat(likeCountStr.replace('万','')) * 10000;
+            likeCountStr = likeCount +'';
+        }
+        if(likeCountStr === '赞' || !likeCountStr){
+            likeCountStr = '0';
+        }
+        return likeCountStr;
     }
 
     protected getIllegal(ele:Element){
@@ -94,6 +90,20 @@ export default class DYSearchDataExporter extends Base{
         // }
         // return illegal;
         return '否'
+    }
+
+    protected getDurationSecondsStr(ele:Element){
+        const durationEle = ele.querySelector('a > div > div.videoImage > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)') as HTMLSpanElement;
+        if(!durationEle){
+            return '0'
+        }
+        const mmss = durationEle.innerHTML;
+        const arr = mmss.split(':');
+        if(arr.length !== 2){
+            return '0';
+        }
+        const seconds = parseInt(arr[0])*60 + parseInt(arr[1]);
+        return seconds + '';    
     }
    
 

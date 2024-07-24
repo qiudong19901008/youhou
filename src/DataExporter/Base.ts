@@ -6,6 +6,7 @@ export type RowType = [
     authorUrl:string,
     likeCount:string,
     illegal:string,
+    durationSeconds:string,
 ]
 
 export default abstract class Base{

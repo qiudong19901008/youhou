@@ -5,6 +5,7 @@ interface XHSDataExporterConfigType extends BaseDataExporterConfigType{
 }
 
 export default class XHSDataExporter extends Base{
+  
     
 
     constructor(){
@@ -95,6 +96,10 @@ export default class XHSDataExporter extends Base{
             illegal = '是'
         }
         return illegal;
+    }
+
+    protected getDurationSecondsStr(ele: Element): string {
+        return '0';
     }
    
 
