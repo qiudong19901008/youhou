@@ -10,18 +10,26 @@
 // ==/UserScript==
 
 import DataExporterContext, { DataExporterTypeEnum } from "../DataExporter";
+import NoteDownloader from "./NoteDownloader";
 import OtherPlatformSearcher from "./OtherPlatformSearcher";
 
 (function() {
     
     'use strict';
-    if(window.location.href.includes('/search_result') || window.location.href.includes('/profile/')){
+    if(
+        window.location.href.includes('/search_result') 
+        || window.location.href.includes('/profile/')
+    ){
         // new DataExporter({})
         new DataExporterContext(DataExporterTypeEnum.小红书);
     }
 
     if (window.location.href.includes('/search_result')) {
         new OtherPlatformSearcher();
+    }
+
+    if (window.location.href.includes('/explore/')){
+        new NoteDownloader();
     }
 
 })()

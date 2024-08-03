@@ -9,8 +9,8 @@
           "es2017",
           "DOM"
       ],
-      "strict": true,
-      "esModuleInterop": false,
+      "strict": false,
+      "esModuleInterop": true,
       "outDir": "out-tsc",
       "rootDir": "./",
       "allowJs": true,

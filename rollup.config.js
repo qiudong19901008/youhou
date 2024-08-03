@@ -1,4 +1,7 @@
 import typescript from "@rollup/plugin-typescript";
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs'
+import nodeResolve from '@rollup/plugin-node-resolve';
 // import dts from "rollup-plugin-dts";
 
 const config = [
@@ -13,8 +16,17 @@ const config = [
             }
         ],
         plugins: [
+            babel({
+                exclude: 'node_modules/**',
+            }),
             typescript({
                 tsconfig: './tsconfig.json'
+            }),
+            commonjs(),
+            nodeResolve({
+                jsnext: true,
+                main: true,
+                browser: true
             })
         ]
     },
