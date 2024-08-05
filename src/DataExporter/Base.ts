@@ -17,7 +17,7 @@ export default abstract class Base{
 
     constructor(){
         this.countElement = this.createCountElement();
-        this.downloadBtn = this.creatDownloadBtn(this._getDownloadFilename());
+        this.downloadBtn = this.creatDownloadBtn();
     }
 
     protected abstract tryGetSearchPageSearchKeywords():string;
@@ -50,7 +50,7 @@ export default abstract class Base{
         return countElement;
     }
 
-    protected creatDownloadBtn = (filename:string)=>{
+    protected creatDownloadBtn = ()=>{
         const downloadBtn = document.createElement("button");
         downloadBtn.innerText = "下载数据";
         downloadBtn.style.position = "fixed";
@@ -65,7 +65,8 @@ export default abstract class Base{
         downloadBtn.style.fontSize = "16px";
         downloadBtn.style.cursor = "pointer";
         downloadBtn.addEventListener("click", () => {
-            this.exportToCSV(this.rows, filename);
+            const fn = this._getDownloadFilename()
+            this.exportToCSV(this.rows, fn);
         });
         document.body.appendChild(downloadBtn);
         return downloadBtn;
