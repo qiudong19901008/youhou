@@ -105,6 +105,10 @@ export default class DYSearchDataExporter extends Base{
         const seconds = parseInt(arr[0])*60 + parseInt(arr[1]);
         return seconds + '';    
     }
+
+    protected getThumbnail(ele:Element){
+        return '';
+    }
    
 
 }

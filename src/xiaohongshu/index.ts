@@ -20,7 +20,6 @@ import OtherPlatformSearcher from "./OtherPlatformSearcher";
         window.location.href.includes('/search_result') 
         || window.location.href.includes('/profile/')
     ){
-        // new DataExporter({})
         new DataExporterContext(DataExporterTypeEnum.小红书);
     }
 

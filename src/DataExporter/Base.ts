@@ -7,6 +7,7 @@ export type RowType = [
     likeCount:string,
     illegal:string,
     durationSeconds:string,
+    thumbnail:string,
 ]
 
 export default abstract class Base{

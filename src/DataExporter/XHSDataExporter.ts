@@ -101,6 +101,18 @@ export default class XHSDataExporter extends Base{
     protected getDurationSecondsStr(ele: Element): string {
         return '0';
     }
+
+    protected getThumbnail(ele:Element){
+        const imageEle = ele.querySelector('a.cover > img') as HTMLImageElement;
+        const url = imageEle.getAttribute('src');
+        if(url){
+            // https://sns-webpic-qc.xhscdn.com/202408141010/b7fea120d4aa08edecf673e3281f0e95/1040g008315mv4jg01c605pgmcc2hojgfppdf9tg!nc_n_webp_mw_1
+            const id = url.split("/")[5].split("!")[0]
+            let pngUrl = `https://ci.xiaohongshu.com/${id}?imageView2/2/w/format/png`;
+            return pngUrl;
+        }        
+        return '';
+    }
    
 
 }
