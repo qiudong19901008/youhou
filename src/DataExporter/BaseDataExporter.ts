@@ -11,11 +11,11 @@ export default abstract class BaseDataExporter extends Base{
     // 创建一个Set，用于存储已提取的笔记链接
     protected extractedLinks = new Set<string>();
     protected count = 0;
-
+// '笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规','播放时长','封面','播放量'
     constructor(){
         super();
         // 添加表头
-        this.rows.push(['笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规','播放时长','封面']);
+        this.rows.push(['笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规','播放时长','封面','播放量']);
         // 第一次加载，提取笔记内容数据
         this._extractNoteData();
         // 监听页面滚动事件，当加载更多内容时，提取更多数据
@@ -37,7 +37,7 @@ export default abstract class BaseDataExporter extends Base{
 
     private _pureStr(str:string){
          // 把#号替换掉，防止csv导出错误
-         const res = str.replace(/#/g,'jin').replace(/,/g, 'douhao');
+         const res = str.replace(/#/g,'jin').replace(/,/g, 'douhao').replace(/"/g, 'shuangyinhao').replace(/'/g,'danyinhao');
          return res;
     }
 
@@ -59,6 +59,7 @@ export default abstract class BaseDataExporter extends Base{
         const illegal = this.getIllegal(ele);  
         const durationSeconds = this.getDurationSecondsStr(ele);
         const thumbnail = this.getThumbnail(ele);
+        const viewCountStr = this.getViewCountStr(ele);
         
         // 将提取的数据添加到数组中
         this.rows.push([
@@ -69,7 +70,8 @@ export default abstract class BaseDataExporter extends Base{
             likeCountStr,
             illegal,
             durationSeconds,
-            thumbnail?thumbnail:'无'
+            thumbnail?thumbnail:'无',
+            viewCountStr,
         ]);
         // 将笔记链接添加到已提取的链接集合中
         this.extractedLinks.add(url);
@@ -89,7 +91,7 @@ export default abstract class BaseDataExporter extends Base{
     protected abstract getIllegal(ele:Element):string;
     protected abstract getDurationSecondsStr(ele:Element):string;
     protected abstract getThumbnail(ele:Element):string;
-
+    protected abstract getViewCountStr(ele:Element):string;
 
     
 

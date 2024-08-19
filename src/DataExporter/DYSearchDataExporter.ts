@@ -109,6 +109,10 @@ export default class DYSearchDataExporter extends Base{
     protected getThumbnail(ele:Element){
         return '';
     }
+
+    protected getViewCountStr(ele:Element){
+        return '0';
+    }
    
 
 }

@@ -48,6 +48,22 @@ const config = [
         ]
     },
    
+    //3
+    {
+        input: 'src/bili/index.ts',
+        output: [
+            {
+                file: './dist/dist_bili.js',
+                // format: 'es',
+                // sourcemap: true,
+            }
+        ],
+        plugins: [
+            typescript({
+                tsconfig: './tsconfig.json'
+            })
+        ]
+    },
 ]
 
 

@@ -113,6 +113,10 @@ export default class XHSDataExporter extends Base{
         }        
         return '';
     }
+
+    protected getViewCountStr(ele:Element){
+        return '0';
+    }
    
 
 }

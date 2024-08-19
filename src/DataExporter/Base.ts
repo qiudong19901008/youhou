@@ -1,5 +1,5 @@
 export type RowType = [
-    // '笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规'
+    // '笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规', '播放时长', '封面','浏览量'
     title:string,
     url:string,
     authorName:string,
@@ -8,6 +8,7 @@ export type RowType = [
     illegal:string,
     durationSeconds:string,
     thumbnail:string,
+    viewCountStr:string,
 ]
 
 export default abstract class Base{
@@ -84,8 +85,17 @@ export default abstract class Base{
             const one =  row.join(",");
             return one;
         }).join("\n");
+
+
         const csv = begin + content;
         const encodedUri = encodeURI(csv);
+// encodeURIComponent
+        
+        console.log(rows)
+        console.log(content)
+        console.log(csv)
+        console.log(encodedUri)
+
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", filename);

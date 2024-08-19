@@ -1,3 +1,4 @@
+import BiliSearchDataExporter from "./BiliSearchDataExporter";
 import DYSearchDataExporter from "./DYSearchDataExporter";
 import XHSDataExporter from "./XHSDataExporter";
 
@@ -6,6 +7,7 @@ export enum DataExporterTypeEnum{
     小红书 = 'XHS',
     抖音搜索 = 'DY_SEARCH',
     抖音作者 = 'DY_AUTHOR',
+    B站搜索 = 'BILI_SEARCH',
 }
 
 export default class DataExporterContext{
@@ -16,12 +18,14 @@ export default class DataExporterContext{
                 new XHSDataExporter();
                 break;
             case DataExporterTypeEnum.抖音搜索:
-                // new XHSDataExporter();
                 new DYSearchDataExporter();
                 break;
-            case DataExporterTypeEnum.抖音作者:
-                // new XHSDataExporter();
+            case DataExporterTypeEnum.B站搜索:
+                new BiliSearchDataExporter();
                 break;
+            // case DataExporterTypeEnum.抖音作者:
+            //     // new XHSDataExporter();
+            //     break;
         }
     }
 
