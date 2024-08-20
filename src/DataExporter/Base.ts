@@ -1,3 +1,5 @@
+import DataToCsvExporter from "../lib/DataToCsvExporter";
+
 export type RowType = [
     // '笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规', '播放时长', '封面','浏览量'
     title:string,
@@ -54,6 +56,7 @@ export default abstract class Base{
 
     protected creatDownloadBtn = ()=>{
         const downloadBtn = document.createElement("button");
+        downloadBtn.id = 'downloadDataBtn';
         downloadBtn.innerText = "下载数据";
         downloadBtn.style.position = "fixed";
         downloadBtn.style.bottom = "140px";
@@ -68,40 +71,41 @@ export default abstract class Base{
         downloadBtn.style.cursor = "pointer";
         downloadBtn.addEventListener("click", () => {
             const fn = this._getDownloadFilename()
-            this.exportToCSV(this.rows, fn);
+            // this.exportToCSV(this.rows, fn);
+            DataToCsvExporter.downloadToCsv(this.rows,fn);
         });
         document.body.appendChild(downloadBtn);
         return downloadBtn;
     }
 
 
-    // 导出函数，将数据导出为CSV文件
-    protected exportToCSV = (rows:RowType[], filename:string)=>{
-        // 删除第三行数据
-        //data.splice(2, 1);
-        // 添加BOM头以处理UTF-8编码
-        const begin = "data:text/csv;charset=utf-8,\uFEFF";
-        const content = rows.map((row,i) => {
-            const one =  row.join(",");
-            return one;
-        }).join("\n");
+//     // 导出函数，将数据导出为CSV文件
+//     protected exportToCSV = (rows:RowType[], filename:string)=>{
+//         // 删除第三行数据
+//         //data.splice(2, 1);
+//         // 添加BOM头以处理UTF-8编码
+//         const begin = "data:text/csv;charset=utf-8,\uFEFF";
+//         const content = rows.map((row,i) => {
+//             const one =  row.join(",");
+//             return one;
+//         }).join("\n");
 
 
-        const csv = begin + content;
-        const encodedUri = encodeURI(csv);
-// encodeURIComponent
+//         const csv = begin + content;
+//         const encodedUri = encodeURI(csv);
+// // encodeURIComponent
         
-        console.log(rows)
-        console.log(content)
-        console.log(csv)
-        console.log(encodedUri)
+//         // console.log(rows)
+//         // console.log(content)
+//         // console.log(csv)
+//         // console.log(encodedUri)
 
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", filename);
-        document.body.appendChild(link);
-        // 需要将链接元素添加到文档中才能生效
-        link.click();
-    }
+//         const link = document.createElement("a");
+//         link.setAttribute("href", encodedUri);
+//         link.setAttribute("download", filename);
+//         document.body.appendChild(link);
+//         // 需要将链接元素添加到文档中才能生效
+//         link.click();
+//     }
 
 }

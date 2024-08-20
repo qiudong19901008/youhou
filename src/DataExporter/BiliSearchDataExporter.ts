@@ -51,16 +51,11 @@ export default class BiliSearchDataExporter extends Base{
         if(!url){
             return '';
         }
-        const arr = url.split('/');
-        return arr[arr.length-2]
+        return url;
+        // const arr = url.split('/');
+        // return arr[arr.length-2]
         // return url;
         // return `https:${url.substring(0,url.length-1)}`
-        // const titleElement = ele.querySelector('div.bili-video-card__wrap.__scale-wrap h3') as HTMLElement;
-        // if(!titleElement){
-        //     return '';
-        // }
-        // const title = titleElement.getAttribute('title')
-        // return title;
     }
 
     protected getAuthorName(ele:Element){
@@ -74,7 +69,6 @@ export default class BiliSearchDataExporter extends Base{
     }
 
     protected getAuthorUrl(ele:Element){
-        // return ''
         const authorElement = ele.querySelector('.bili-video-card__info--owner') as HTMLAnchorElement;
         if(!authorElement){
             return '';
@@ -118,10 +112,13 @@ export default class BiliSearchDataExporter extends Base{
         }
         const mmss = durationEle.innerHTML;
         const arr = mmss.split(':');
-        if(arr.length !== 2){
-            return '0';
+        let seconds = 0;
+        if(arr.length === 3){
+            seconds = parseInt(arr[0])*60*60 + parseInt(arr[1])*60 + parseInt(arr[2]);
         }
-        const seconds = parseInt(arr[0])*60 + parseInt(arr[1]);
+        if(arr.length === 2){
+            seconds = parseInt(arr[0])*60 + parseInt(arr[1]);
+        }
         return seconds + '';    
     }
 
@@ -143,10 +140,18 @@ export default class BiliSearchDataExporter extends Base{
 
     protected getViewCountStr(ele:Element){
         const viewCountEle = ele.querySelector('.bili-video-card__stats--left .bili-video-card__stats--item:nth-child(1) span') as HTMLSpanElement;
-        if(!viewCountEle){
-            return '0'
+        let viewCountStr = viewCountEle ? viewCountEle.innerText : '';
+        // if(likeCountStr.endsWith('w')){
+        //     const likeCount = parseFloat(likeCountStr.replace('w','')) * 10000;
+        //     likeCountStr = likeCount +'';
+        // }
+        if(viewCountStr.endsWith('万')){
+            const viewCount = parseFloat(viewCountStr.replace('万','')) * 10000;
+            viewCountStr = viewCount +'';
         }
-        const viewCountStr = viewCountEle.innerHTML;
+        // if(likeCountStr === '赞' || !likeCountStr){
+        //     likeCountStr = '0';
+        // }
         return viewCountStr;
     }
    

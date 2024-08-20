@@ -29,6 +29,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "export-to-csv": "^1.3.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1"
   }

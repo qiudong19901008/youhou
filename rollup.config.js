@@ -42,8 +42,17 @@ const config = [
             }
         ],
         plugins: [
+            babel({
+                exclude: 'node_modules/**',
+            }),
             typescript({
                 tsconfig: './tsconfig.json'
+            }),
+            commonjs(),
+            nodeResolve({
+                jsnext: true,
+                main: true,
+                browser: true
             })
         ]
     },
@@ -59,8 +68,17 @@ const config = [
             }
         ],
         plugins: [
+            babel({
+                exclude: 'node_modules/**',
+            }),
             typescript({
                 tsconfig: './tsconfig.json'
+            }),
+            commonjs(),
+            nodeResolve({
+                jsnext: true,
+                main: true,
+                browser: true
             })
         ]
     },
