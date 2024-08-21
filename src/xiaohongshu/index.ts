@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         New Userscript
+// @name         小红书
 // @namespace    http://tampermonkey.net/
 // @version      2023-12-22
 // @description  try to take over the world!

@@ -1,22 +1,38 @@
 import { mkConfig, generateCsv, download } from "export-to-csv";
-import { RowType } from "../DataExporter/Base";
+import { RowObjType, RowType } from "../DataExporter/Base";
 
 
 class DataToCsvExporter{
 
-    // constructor(csvBtnId:string){
-    //     const csvBtn = document.querySelector(`#${csvBtnId}`);
-    //     csvBtn.addEventListener("click", () => {
-    //         this.downloadToCsv()
-    //     });
-    // }
 
-    // public init(csvBtnId:string){
-    //     const csvBtn = document.querySelector(`#${csvBtnId}`);
-    //     csvBtn.addEventListener("click", () => {
-    //         this.downloadToCsv()
-    //     });
-    // }
+    public downloadToCsvWithRowObjType(rows:RowObjType[],fn:string,headersArr:string[]){
+        const csvConfig = mkConfig({ 
+            useKeysAsHeaders: true,
+            // columnHeaders:headersArr,
+            filename:fn,
+            // showColumnHeaders:false,
+        });
+
+        rows.unshift({
+            title:headersArr[0],
+            url:headersArr[1],
+            uniqueId:headersArr[2],
+            thumbnail:headersArr[3],
+
+            authorName:headersArr[4],
+            authorUrl:headersArr[5],
+            authorUniqueId:headersArr[6],
+
+            viewCountStr:headersArr[7],
+            likeCountStr:headersArr[8],
+            durationSecondsStr:headersArr[9],
+
+            illegal:headersArr[10],
+        })
+
+        const csv = generateCsv(csvConfig)(rows);
+        download(csvConfig)(csv)
+    }
 
     public downloadToCsv(rows:RowType[],fn:string){
         const csvConfig = mkConfig({ 

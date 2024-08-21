@@ -5,6 +5,7 @@ interface XHSDataExporterConfigType extends BaseDataExporterConfigType{
 }
 
 export default class XHSDataExporter extends Base{
+    
   
     
 
@@ -39,37 +40,91 @@ export default class XHSDataExporter extends Base{
         const res = document.querySelectorAll(`section.note-item > div`);
         return res;
     }
+
+
     protected getTitle(ele:Element){
         // 提取标题和笔记链接
         // const titleElement = ele.querySelector('a.title span') as HTMLSpanElement;
         const titleElement = ele.querySelector('.footer a.title span') as HTMLSpanElement;
-        let title = titleElement ? titleElement.innerText : '';
+        let title = titleElement ? titleElement.innerText : '无';
         return title;
     }
 
     protected getUrl(ele:Element){
         const titleElement = ele.querySelector('.footer a.title span') as HTMLSpanElement;
-        const url = titleElement ? 'https://www.xiaohongshu.com' + ele.querySelector('a')?.getAttribute('href'):'';
+        if(!titleElement){
+            return '无'
+        }
+        const url = 'https://www.xiaohongshu.com' + ele.querySelector('a')?.getAttribute('href');
         return url;
     }
+
+    protected getUniqueId(ele: Element): string {
+        const url = this.getUrl(ele);
+        if(url === '无'){
+            return url;
+        }
+        // https://www.xiaohongshu.com/explore/66becb0d000000000503abd2
+        const arr = url.split('/');
+        return arr[arr.length-1]
+    }
+
+    protected getThumbnail(ele:Element){
+        const imageEle = ele.querySelector('a.cover > img') as HTMLImageElement;
+        const url = imageEle.getAttribute('src');
+        if(url){
+            // https://sns-webpic-qc.xhscdn.com/202408141010/b7fea120d4aa08edecf673e3281f0e95/1040g008315mv4jg01c605pgmcc2hojgfppdf9tg!nc_n_webp_mw_1
+            const id = url.split("/")[5].split("!")[0]
+            let pngUrl = `https://ci.xiaohongshu.com/${id}?imageView2/2/w/format/png`;
+            return pngUrl;
+        }        
+        return '无';
+    }
+
 
     protected getAuthorName(ele:Element){
         // 提取作者和作者链接
         const authorElement = ele.querySelector('.footer div.author-wrapper a.author') as HTMLAnchorElement;
 
         if(!authorElement){
-            return '未知';
+            return '无';
         }
 
         const authorSpanEle = authorElement.querySelector('span.name') as HTMLSpanElement;
-        let author = authorElement ? authorSpanEle.innerText : '';
-        return author;
+
+        if(!authorSpanEle){
+            return '无'
+        }
+
+        let authorName = authorSpanEle.innerText;
+        return authorName;
     }
 
     protected getAuthorUrl(ele:Element){
         const authorElement = ele.querySelector('.footer div.author-wrapper a.author') as HTMLAnchorElement;
-        const authorLink = authorElement ? 'https://www.xiaohongshu.com' + authorElement.getAttribute('href') : '';
+        if(!authorElement){
+            return '无'
+        }
+        
+        const authorLink = 'https://www.xiaohongshu.com' + authorElement.getAttribute('href').split('?')[0];
         return authorLink;
+    }
+
+    protected getAuthorUniqueId(ele: Element): string {
+        
+        const url = this.getAuthorUrl(ele);
+        if(url === '无'){
+            return url;
+        }
+        // https://www.xiaohongshu.com/user/profile/5fe40577000000000101f9fc
+        const arr = url.split('/');
+        return arr[arr.length-1]
+    }
+
+
+
+    protected getViewCountStr(ele:Element){
+        return '0';
     }
 
     protected getLikeCountStr(ele:Element){
@@ -89,6 +144,10 @@ export default class XHSDataExporter extends Base{
         return likeCountStr;
     }
 
+    protected getDurationSecondsStr(ele: Element): string {
+        return '0';
+    }
+
     protected getIllegal(ele:Element){
         let illegal = '否';
         const tagArea = ele.querySelector('.bottom-tag-area');
@@ -98,25 +157,7 @@ export default class XHSDataExporter extends Base{
         return illegal;
     }
 
-    protected getDurationSecondsStr(ele: Element): string {
-        return '0';
-    }
-
-    protected getThumbnail(ele:Element){
-        const imageEle = ele.querySelector('a.cover > img') as HTMLImageElement;
-        const url = imageEle.getAttribute('src');
-        if(url){
-            // https://sns-webpic-qc.xhscdn.com/202408141010/b7fea120d4aa08edecf673e3281f0e95/1040g008315mv4jg01c605pgmcc2hojgfppdf9tg!nc_n_webp_mw_1
-            const id = url.split("/")[5].split("!")[0]
-            let pngUrl = `https://ci.xiaohongshu.com/${id}?imageView2/2/w/format/png`;
-            return pngUrl;
-        }        
-        return '';
-    }
-
-    protected getViewCountStr(ele:Element){
-        return '0';
-    }
+    
    
 
 }

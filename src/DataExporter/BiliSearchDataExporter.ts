@@ -4,6 +4,7 @@ import Base, { BaseDataExporterConfigType } from "./BaseDataExporter";
 
 export default class BiliSearchDataExporter extends Base{
     
+    
 
     constructor(){
         super();      
@@ -11,7 +12,6 @@ export default class BiliSearchDataExporter extends Base{
 
     // 第一部分
     protected tryGetSearchPageSearchKeywords(){
-        // #i_cecream > div > div:nth-child(2) > div.search-header > div.search-input > div > div > div > input
         const keywordInputEle = document.querySelector('.search-header input.search-input-el') as HTMLInputElement|null;
         if (!keywordInputEle) {
             return '';
@@ -31,12 +31,13 @@ export default class BiliSearchDataExporter extends Base{
         const res = document.querySelectorAll(`div.video-list > div > div.bili-video-card`);
         return res;
     }
+
     protected getTitle(ele:Element){
         // 提取标题
         // div.bili-video-card__wrap.__scale-wrap > div > div > a > h3
         const titleElement = ele.querySelector('div.bili-video-card__wrap.__scale-wrap h3') as HTMLElement;
         if(!titleElement){
-            return '';
+            return '无';
         }
         const title = titleElement.getAttribute('title')
         return title;
@@ -45,24 +46,44 @@ export default class BiliSearchDataExporter extends Base{
     protected getUrl(ele:Element){
         const aEle = ele.querySelector('div.bili-video-card__wrap.__scale-wrap > a') as HTMLAnchorElement;
         if(!aEle){
-            return '';
+            return '无';
         }
         const url = aEle.getAttribute('href');
         if(!url){
-            return '';
+            return '无';
         }
         return url;
-        // const arr = url.split('/');
-        // return arr[arr.length-2]
-        // return url;
-        // return `https:${url.substring(0,url.length-1)}`
     }
+
+    protected getUniqueId(ele: Element): string {
+        const url = this.getUrl(ele);
+        if(url === '无'){
+            return url;
+        }
+        // https://www.bilibili.com/video/BV1LmWpeCEUX/
+        const arr = url.split('/');
+        return arr[arr.length-2]
+    }
+
+    protected getThumbnail(ele:Element){
+        const imgEle = ele.querySelector('.bili-video-card__cover img') as HTMLImageElement;
+        if(!imgEle){
+            return '无';
+        }
+        const src = imgEle.getAttribute('src');
+        const srcArr = src.split('@');
+        if(srcArr[0]){
+            return srcArr[0];
+        }
+        return '无';
+    }
+
 
     protected getAuthorName(ele:Element){
         // 提取作者和作者链接
         const authorElement = ele.querySelector('.bili-video-card__info--owner .bili-video-card__info--author') as HTMLSpanElement;
         if(!authorElement){
-            return '未知';
+            return '无';
         }
         let authorName = authorElement.innerHTML;
         return authorName;
@@ -71,10 +92,37 @@ export default class BiliSearchDataExporter extends Base{
     protected getAuthorUrl(ele:Element){
         const authorElement = ele.querySelector('.bili-video-card__info--owner') as HTMLAnchorElement;
         if(!authorElement){
-            return '';
+            return '无';
         }
         const res = authorElement.getAttribute('href');
         return res
+    }
+
+    protected getAuthorUniqueId(ele: Element): string {
+        const url = this.getAuthorUrl(ele);
+        if(url === '无'){
+            return url;
+        }
+        // https://space.bilibili.com/17223352
+        const arr = url.split('/');
+        return arr[arr.length-1]
+    }
+
+    protected getViewCountStr(ele:Element){
+        const viewCountEle = ele.querySelector('.bili-video-card__stats--left .bili-video-card__stats--item:nth-child(1) span') as HTMLSpanElement;
+        let viewCountStr = viewCountEle ? viewCountEle.innerText : '';
+        // if(likeCountStr.endsWith('w')){
+        //     const likeCount = parseFloat(likeCountStr.replace('w','')) * 10000;
+        //     likeCountStr = likeCount +'';
+        // }
+        if(viewCountStr.endsWith('万')){
+            const viewCount = parseFloat(viewCountStr.replace('万','')) * 10000;
+            viewCountStr = viewCount +'';
+        }
+        // if(likeCountStr === '赞' || !likeCountStr){
+        //     likeCountStr = '0';
+        // }
+        return viewCountStr;
     }
 
     protected getLikeCountStr(ele:Element){
@@ -95,16 +143,6 @@ export default class BiliSearchDataExporter extends Base{
         // return likeCountStr;
     }
 
-    protected getIllegal(ele:Element){
-        // let illegal = '否';
-        // const tagArea = ele.querySelector('.bottom-tag-area');
-        // if(tagArea && tagArea.innerHTML.includes('违规')){
-        //     illegal = '是'
-        // }
-        // return illegal;
-        return '否'
-    }
-
     protected getDurationSecondsStr(ele:Element){
         const durationEle = ele.querySelector('.bili-video-card__stats__duration') as HTMLSpanElement;
         if(!durationEle){
@@ -122,38 +160,21 @@ export default class BiliSearchDataExporter extends Base{
         return seconds + '';    
     }
 
-    protected getThumbnail(ele:Element){
-        // return ''
-        const imgEle = ele.querySelector('.bili-video-card__cover img') as HTMLImageElement;
-        if(!imgEle){
-            return '';
-        }
-        const src = imgEle.getAttribute('src');
-        const srcArr = src.split('@');
-        if(srcArr[0]){
-            return srcArr[0];
-        }
-        return '';
-
-        
+    protected getIllegal(ele:Element){
+        // let illegal = '否';
+        // const tagArea = ele.querySelector('.bottom-tag-area');
+        // if(tagArea && tagArea.innerHTML.includes('违规')){
+        //     illegal = '是'
+        // }
+        // return illegal;
+        return '否'
     }
 
-    protected getViewCountStr(ele:Element){
-        const viewCountEle = ele.querySelector('.bili-video-card__stats--left .bili-video-card__stats--item:nth-child(1) span') as HTMLSpanElement;
-        let viewCountStr = viewCountEle ? viewCountEle.innerText : '';
-        // if(likeCountStr.endsWith('w')){
-        //     const likeCount = parseFloat(likeCountStr.replace('w','')) * 10000;
-        //     likeCountStr = likeCount +'';
-        // }
-        if(viewCountStr.endsWith('万')){
-            const viewCount = parseFloat(viewCountStr.replace('万','')) * 10000;
-            viewCountStr = viewCount +'';
-        }
-        // if(likeCountStr === '赞' || !likeCountStr){
-        //     likeCountStr = '0';
-        // }
-        return viewCountStr;
-    }
+    
+
+    
+
+    
    
 
 }

@@ -12,12 +12,44 @@ export type RowType = [
     thumbnail:string,
     viewCountStr:string,
 ]
+// '标题', '链接', '唯一标识', '封面', '作者名', '作者链接','作者唯一标识', '浏览量', '点赞数','播放时长','是否违规'
+export type RowObjType = {
+    title:string,
+    url:string,
+    uniqueId:string,
+    thumbnail:string,
+
+    authorName:string,
+    authorUrl:string,
+    authorUniqueId:string,
+
+    viewCountStr:string,
+    likeCountStr:string,
+    durationSecondsStr:string,
+
+    illegal:string,
+
+}
+
 
 export default abstract class Base{
 
     protected countElement:HTMLDivElement;
     protected downloadBtn:HTMLButtonElement;
-    protected rows:RowType[] = [];
+    protected rows:RowObjType[] = [];
+    protected headersArr:string[] = [
+        '标题', 
+        '链接', 
+        '唯一标识', 
+        '封面', 
+        '作者名', 
+        '作者链接',
+        '作者唯一标识', 
+        '浏览量', 
+        '点赞数',
+        '播放时长',
+        '是否违规'
+    ]
 
     constructor(){
         this.countElement = this.createCountElement();
@@ -72,7 +104,8 @@ export default abstract class Base{
         downloadBtn.addEventListener("click", () => {
             const fn = this._getDownloadFilename()
             // this.exportToCSV(this.rows, fn);
-            DataToCsvExporter.downloadToCsv(this.rows,fn);
+            console.log(this.rows)
+            DataToCsvExporter.downloadToCsvWithRowObjType(this.rows,fn,this.headersArr);
         });
         document.body.appendChild(downloadBtn);
         return downloadBtn;

@@ -4,6 +4,7 @@ import Base, { BaseDataExporterConfigType } from "./BaseDataExporter";
 
 export default class DYSearchDataExporter extends Base{
     
+    
 
     constructor(){
         super();      
@@ -30,20 +31,36 @@ export default class DYSearchDataExporter extends Base{
         const res = document.querySelectorAll(`#search-content-area ul[data-e2e="scroll-list"] > li`);
         return res;
     }
+
+
     protected getTitle(ele:Element){
         // 提取标题
         const titleElement = ele.querySelector('a > div > div:nth-child(2) > div > div:nth-child(1)') as HTMLElement;
-        let title = titleElement ? titleElement.innerText : '';
+        let title = titleElement ? titleElement.innerText : '无';
         return title;
     }
 
     protected getUrl(ele:Element){
         const aLink = ele.querySelector('a') as HTMLSpanElement;
         if(!aLink){
-            return '';
+            return '无';
         }
         const url = aLink.getAttribute('href');
-        return url?url:'';
+        return url?url:'无';
+    }
+
+    protected getUniqueId(ele: Element): string {
+        const url = this.getUrl(ele);
+        if(url === '无'){
+            return url;
+        }
+        // https://www.douyin.com/video/7397690011128253736
+        const arr = url.split('/');
+        return arr[arr.length-1]
+    }
+
+    protected getThumbnail(ele:Element){
+        return '无';
     }
 
     protected getAuthorName(ele:Element){
@@ -51,9 +68,9 @@ export default class DYSearchDataExporter extends Base{
         const authorElement = ele.querySelector('a > div > div:nth-child(2) > div > div:nth-child(2) > span:nth-child(1) > span:nth-child(2)') as HTMLElement;
 
         if(!authorElement){
-            return '未知';
+            return '无';
         }
-        let author = authorElement ? authorElement.innerText : '';
+        let author = authorElement ? authorElement.innerText : '无';
         return author;
     }
 
@@ -61,8 +78,20 @@ export default class DYSearchDataExporter extends Base{
         // const authorElement = ele.querySelector('.footer div.author-wrapper a.author') as HTMLAnchorElement;
         // const authorLink = authorElement ? 'https://www.xiaohongshu.com' + authorElement.getAttribute('href') : '';
         // return authorLink;
-        return ''
+        return '无'
     }
+
+    protected getAuthorUniqueId(ele: Element): string {
+        return '无';
+    }
+
+    
+
+
+    protected getViewCountStr(ele:Element){
+        return '0';
+    }
+   
 
     protected getLikeCountStr(ele:Element){
 
@@ -82,16 +111,6 @@ export default class DYSearchDataExporter extends Base{
         return likeCountStr;
     }
 
-    protected getIllegal(ele:Element){
-        // let illegal = '否';
-        // const tagArea = ele.querySelector('.bottom-tag-area');
-        // if(tagArea && tagArea.innerHTML.includes('违规')){
-        //     illegal = '是'
-        // }
-        // return illegal;
-        return '否'
-    }
-
     protected getDurationSecondsStr(ele:Element){
         const durationEle = ele.querySelector('a > div > div.videoImage > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)') as HTMLSpanElement;
         if(!durationEle){
@@ -106,13 +125,11 @@ export default class DYSearchDataExporter extends Base{
         return seconds + '';    
     }
 
-    protected getThumbnail(ele:Element){
-        return '';
+    protected getIllegal(ele:Element){
+        return '否'
     }
 
-    protected getViewCountStr(ele:Element){
-        return '0';
-    }
-   
+    
+
 
 }
