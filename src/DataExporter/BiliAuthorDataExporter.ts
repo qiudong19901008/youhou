@@ -12,7 +12,8 @@ export default class BiliAuthorDataExporter extends BaseDataExporter{
     }
 
     protected getExportToCsvType(): "my" | "export-to-csv" {
-        return 'my';
+        return 'export-to-csv';
+        // return 'my'
     }
 
     // 第一部分
@@ -59,10 +60,14 @@ export default class BiliAuthorDataExporter extends BaseDataExporter{
         if(!aEle){
             return '无';
         }
-        const url = aEle.getAttribute('href');
+        let url = aEle.getAttribute('href');
         if(!url){
             return '无';
         }
+        // if(url.startsWith('//www.')){
+        //     // url = url.substring(6);
+        //     url = '/'
+        // }
         return url;
     }
 

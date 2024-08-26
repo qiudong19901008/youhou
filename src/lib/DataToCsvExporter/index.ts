@@ -1,5 +1,6 @@
 import { mkConfig, generateCsv, download } from "export-to-csv";
-import { RowObjType, RowType } from "../DataExporter/Base";
+import { RowObjType, RowType } from "../../DataExporter/Base";
+import { downloadToCsv, downloadToCsvByReader } from "./MyCsvExporter";
 
 
 interface DataToCsvExporterConfigType{
@@ -65,23 +66,25 @@ export default class DataToCsvExporter{
         })
 
         // for(let row of rows){
-        //     rows[key].url = rows[key].url.split('/').join('/');
+        //     row.url = JSON.stringify(row.url);
         // }
 
         const csv = generateCsv(csvConfig)(rows);
         console.log(csv)
-        download(csvConfig)(csv)
+        // download(csvConfig)(csv)
+        // downloadToCsv(csv,fn);
+        downloadToCsvByReader(csv,fn)
     }
 
-    private _downloadToCsv(rows:RowType[],fn:string){
-        const csvConfig = mkConfig({ 
-            useKeysAsHeaders: true,
-            filename:fn,
-        });
-        const data = this._rowArrToRowObjArr(rows);
-        const csv = generateCsv(csvConfig)(data);
-        download(csvConfig)(csv)
-    }
+    // private _downloadToCsv(rows:RowType[],fn:string){
+    //     const csvConfig = mkConfig({ 
+    //         useKeysAsHeaders: true,
+    //         filename:fn,
+    //     });
+    //     const data = this._rowArrToRowObjArr(rows);
+    //     const csv = generateCsv(csvConfig)(data);
+    //     download(csvConfig)(csv)
+    // }
 
     private _rowObjArrToRowArr(rowObjArr:RowObjType[]){
         let res:RowType[] = [];
@@ -108,37 +111,38 @@ export default class DataToCsvExporter{
 
 
 
-    private _rowArrToRowObjArr(rowArr:RowType[]){
-        const keys = rowArr[0];
-        const valuesArr = rowArr.filter((row,i)=>{
-            return i!== 0;
-        })
-        const data:any[] = [];
-        for(let values of valuesArr){
-            let obj:any = {};
-            for(let i=0;i<keys.length;i++){
-                const key = keys[i];
-                const value = values[i];
-                obj[key] = value;
-            }
-            data.push(obj);
-        }
-        return data;
-    }
+    // private _rowArrToRowObjArr(rowArr:RowType[]){
+    //     const keys = rowArr[0];
+    //     const valuesArr = rowArr.filter((row,i)=>{
+    //         return i!== 0;
+    //     })
+    //     const data:any[] = [];
+    //     for(let values of valuesArr){
+    //         let obj:any = {};
+    //         for(let i=0;i<keys.length;i++){
+    //             const key = keys[i];
+    //             const value = values[i];
+    //             obj[key] = value;
+    //         }
+    //         data.push(obj);
+    //     }
+    //     return data;
+    // }
 
 
     private _myExportToCSV = (rows:RowType[], filename:string,headerArr:RowType)=>{
-
+        // navigator.msSaveBlob(blob, fileName);
         rows.unshift(headerArr);
 
         // 删除第三行数据
         //data.splice(2, 1);
         // 添加BOM头以处理UTF-8编码
-        const begin = "data:text/csv;charset=utf-8,\uFEFF";
+        // const begin = "data:text/csv;charset=utf-8,\uFEFF";
+        const begin = "data:text/csv;charset=utf-8,%EF%BB%BF";
         const content = rows.map((row,i) => {
             const one =  row.join(",");
             return one;
-        }).join("\n");
+        }).join("\r\n");
 
 
         const csv = begin + content;
@@ -150,6 +154,7 @@ export default class DataToCsvExporter{
         document.body.appendChild(link);
         // 需要将链接元素添加到文档中才能生效
         link.click();
+        document.body.removeChild(link);
     }
 }
 
