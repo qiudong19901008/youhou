@@ -76,7 +76,7 @@ export default abstract class BaseDataExporter extends Base{
         // 将提取的数据添加到数组中
         this.rows.push({
             title,
-            url,
+            url:url+'',
             uniqueId:uniqueId !== '无'?`${uniqueId}a`:uniqueId,
             // uniqueId:uniqueId !== '无'?`${uniqueId}\t`:uniqueId,
             thumbnail,
@@ -98,6 +98,10 @@ export default abstract class BaseDataExporter extends Base{
         ele.classList.add('extracted');
         // 增加计数器
         this.count++;
+    }
+
+    protected getExportToCsvType(): "my" | "export-to-csv" {
+        return 'export-to-csv';
     }
 
 

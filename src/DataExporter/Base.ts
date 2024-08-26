@@ -4,13 +4,18 @@ export type RowType = [
     // '笔记标题', '笔记链接', '作者', '作者链接', '点赞数', '是否违规', '播放时长', '封面','浏览量'
     title:string,
     url:string,
+    uniqueId:string,
+    thumbnail:string,
+
     authorName:string,
     authorUrl:string,
-    likeCount:string,
-    illegal:string,
-    durationSeconds:string,
-    thumbnail:string,
+    authorUniqueId:string,
+
     viewCountStr:string,
+    likeCountStr:string,
+    durationSecondsStr:string,
+
+    illegal:string,
 ]
 // '标题', '链接', '唯一标识', '封面', '作者名', '作者链接','作者唯一标识', '浏览量', '点赞数','播放时长','是否违规'
 export type RowObjType = {
@@ -37,17 +42,20 @@ export default abstract class Base{
     protected countElement:HTMLDivElement;
     protected downloadBtn:HTMLButtonElement;
     protected rows:RowObjType[] = [];
-    protected headersArr:string[] = [
+    protected headerArr:RowType = [
         '标题', 
         '链接', 
         '唯一标识', 
         '封面', 
+
         '作者名', 
         '作者链接',
         '作者唯一标识', 
+
         '浏览量', 
         '点赞数',
         '播放时长',
+
         '是否违规'
     ]
 
@@ -59,6 +67,8 @@ export default abstract class Base{
     protected abstract tryGetSearchPageSearchKeywords():string;
     protected abstract tryGetAuthorPageAuthorName():string;
     protected abstract getDefaultDownloadFilename():string;
+
+    protected abstract getExportToCsvType():'my'|'export-to-csv';
 
 
     private _getDownloadFilename(){
@@ -103,9 +113,15 @@ export default abstract class Base{
         downloadBtn.style.cursor = "pointer";
         downloadBtn.addEventListener("click", () => {
             const fn = this._getDownloadFilename()
-            // this.exportToCSV(this.rows, fn);
             console.log(this.rows)
-            DataToCsvExporter.downloadToCsvWithRowObjType(this.rows,fn,this.headersArr);
+            console.log(fn)
+            console.log(this.headerArr)
+            new DataToCsvExporter({
+                rowObjArr:this.rows,
+                fn,
+                headerArr:this.headerArr,
+                type:this.getExportToCsvType(),
+            }).run();
         });
         document.body.appendChild(downloadBtn);
         return downloadBtn;
@@ -113,32 +129,6 @@ export default abstract class Base{
 
 
 //     // 导出函数，将数据导出为CSV文件
-//     protected exportToCSV = (rows:RowType[], filename:string)=>{
-//         // 删除第三行数据
-//         //data.splice(2, 1);
-//         // 添加BOM头以处理UTF-8编码
-//         const begin = "data:text/csv;charset=utf-8,\uFEFF";
-//         const content = rows.map((row,i) => {
-//             const one =  row.join(",");
-//             return one;
-//         }).join("\n");
-
-
-//         const csv = begin + content;
-//         const encodedUri = encodeURI(csv);
-// // encodeURIComponent
-        
-//         // console.log(rows)
-//         // console.log(content)
-//         // console.log(csv)
-//         // console.log(encodedUri)
-
-//         const link = document.createElement("a");
-//         link.setAttribute("href", encodedUri);
-//         link.setAttribute("download", filename);
-//         document.body.appendChild(link);
-//         // 需要将链接元素添加到文档中才能生效
-//         link.click();
-//     }
+    
 
 }
