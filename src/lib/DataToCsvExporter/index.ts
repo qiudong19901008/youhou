@@ -63,6 +63,8 @@ export default class DataToCsvExporter{
             durationSecondsStr:headersArr[9],
 
             illegal:headersArr[10],
+
+            param1:headersArr[11],
         })
 
         // for(let row of rows){
@@ -104,6 +106,8 @@ export default class DataToCsvExporter{
                 rowObj.durationSecondsStr,
 
                 rowObj.illegal,
+
+                rowObj.param1,
             ])
         }
         return res;

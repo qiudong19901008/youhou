@@ -4,7 +4,7 @@ import Base, { BaseDataExporterConfigType } from "./BaseDataExporter";
 
 export default class BiliSearchDataExporter extends Base{
     
-    
+
 
     constructor(){
         super();      
@@ -170,7 +170,9 @@ export default class BiliSearchDataExporter extends Base{
         return '否'
     }
 
-    
+    protected getParam1(ele: Element): string {
+        return '无';
+    }
 
     
 

@@ -1,3 +1,4 @@
+import { f_getQueryVar } from "../lib/functions";
 import Base, { BaseDataExporterConfigType } from "./BaseDataExporter";
 
 interface XHSDataExporterConfigType extends BaseDataExporterConfigType{
@@ -50,7 +51,10 @@ export default class XHSDataExporter extends Base{
         return title;
     }
 
+    
+
     protected getUrl(ele:Element){
+        // 如果无标题则当做没有处理
         const titleElement = ele.querySelector('.footer a.title span') as HTMLSpanElement;
         if(!titleElement){
             return '无'
@@ -155,6 +159,21 @@ export default class XHSDataExporter extends Base{
             illegal = '是'
         }
         return illegal;
+    }
+
+    protected getParam1(ele:Element){
+        // 有标题则获取
+        const coverAEle = ele.querySelector('a.cover') as HTMLLinkElement;
+        if(!coverAEle){
+            return '无';
+        }
+        // /search_result/675a9ae60000000006039462?xsec_token=ABui8cdN7qM5UtArao_qy0fvyLnsX8Z5e-zMEQD_bqf5k=&xsec_source=
+        const href = coverAEle.getAttribute('href');
+        const value = f_getQueryVar(href,'xsec_token');
+        if(!value){
+            return '无';
+        }
+        return value;
     }
 
     

@@ -73,6 +73,8 @@ export default abstract class BaseDataExporter extends Base{
 
         const illegal = this.getIllegal(ele);  
 
+        const param1 = this.getParam1(ele);
+
         // 将提取的数据添加到数组中
         this.rows.push({
             title,
@@ -91,6 +93,8 @@ export default abstract class BaseDataExporter extends Base{
             durationSecondsStr,
 
             illegal,
+
+            param1,
         });
         // 将笔记链接添加到已提取的链接集合中
         this.extractedLinks.add(url);
@@ -121,6 +125,7 @@ export default abstract class BaseDataExporter extends Base{
     protected abstract getDurationSecondsStr(ele:Element):string;
     
     protected abstract getIllegal(ele:Element):string;
+    protected abstract getParam1(ele:Element):string;
 
 
 

@@ -16,6 +16,8 @@ export type RowType = [
     durationSecondsStr:string,
 
     illegal:string,
+
+    param1:string,
 ]
 // '标题', '链接', '唯一标识', '封面', '作者名', '作者链接','作者唯一标识', '浏览量', '点赞数','播放时长','是否违规'
 export type RowObjType = {
@@ -33,6 +35,8 @@ export type RowObjType = {
     durationSecondsStr:string,
 
     illegal:string,
+
+    param1:string,
 
 }
 
@@ -56,7 +60,9 @@ export default abstract class Base{
         '点赞数',
         '播放时长',
 
-        '是否违规'
+        '是否违规',
+
+        '参数1',
     ]
 
     constructor(){

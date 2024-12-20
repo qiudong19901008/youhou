@@ -129,6 +129,9 @@ export default class DYSearchDataExporter extends Base{
         return '否'
     }
 
+    protected getParam1(ele: Element): string {
+        return '无';
+    }
     
 
 

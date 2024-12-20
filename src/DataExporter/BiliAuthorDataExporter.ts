@@ -4,7 +4,7 @@ import BaseDataExporter, { BaseDataExporterConfigType } from "./BaseDataExporter
 
 
 export default class BiliAuthorDataExporter extends BaseDataExporter{
-    
+
     
 
     constructor(){
@@ -194,6 +194,10 @@ export default class BiliAuthorDataExporter extends BaseDataExporter{
 
     
 
+    protected getParam1(ele: Element): string {
+        return '无';
+    }
+    
     
 
     
