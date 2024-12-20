@@ -94,7 +94,7 @@ export default abstract class BaseDataExporter extends Base{
 
             illegal,
 
-            param1,
+            param1:param1 !== '无'?`${param1}a`:param1,
         });
         // 将笔记链接添加到已提取的链接集合中
         this.extractedLinks.add(url);
