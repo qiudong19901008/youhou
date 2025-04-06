@@ -75,6 +75,9 @@ export default class XHSDataExporter extends Base{
 
     protected getThumbnail(ele:Element){
         const imageEle = ele.querySelector('a.cover > img') as HTMLImageElement;
+        if(!imageEle){
+            return '无';
+        }
         const url = imageEle.getAttribute('src');
         if(url){
             // https://sns-webpic-qc.xhscdn.com/202408141010/b7fea120d4aa08edecf673e3281f0e95/1040g008315mv4jg01c605pgmcc2hojgfppdf9tg!nc_n_webp_mw_1
@@ -85,13 +88,20 @@ export default class XHSDataExporter extends Base{
         return '无';
     }
 
+    private _getAuthorElement(ele:Element){
+        let res = ele.querySelector('.footer div.author-wrapper a.author') as HTMLAnchorElement;
+        if(!res){
+            res = ele.querySelector('.footer div.card-bottom-wrapper a.author') as HTMLAnchorElement;
+        }
+        return res;
+    }
 
     protected getAuthorName(ele:Element){
         // 提取作者和作者链接
-        const authorElement = ele.querySelector('.footer div.author-wrapper a.author') as HTMLAnchorElement;
+        const authorElement = this._getAuthorElement(ele);
 
         if(!authorElement){
-            return '无';
+            return '无'
         }
 
         const authorSpanEle = authorElement.querySelector('span.name') as HTMLSpanElement;
@@ -105,7 +115,7 @@ export default class XHSDataExporter extends Base{
     }
 
     protected getAuthorUrl(ele:Element){
-        const authorElement = ele.querySelector('.footer div.author-wrapper a.author') as HTMLAnchorElement;
+        const authorElement = this._getAuthorElement(ele);
         if(!authorElement){
             return '无'
         }
