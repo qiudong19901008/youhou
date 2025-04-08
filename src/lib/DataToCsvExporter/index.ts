@@ -72,7 +72,7 @@ export default class DataToCsvExporter{
         // }
 
         const csv = generateCsv(csvConfig)(rows);
-        console.log(csv)
+        // console.log(csv)
         // download(csvConfig)(csv)
         // downloadToCsv(csv,fn);
         downloadToCsvByReader(csv,fn)

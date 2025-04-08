@@ -80,13 +80,11 @@ export default abstract class BaseDataExporter extends Base{
             title,
             url:url+'',
             uniqueId:uniqueId !== '无'?`${uniqueId}a`:uniqueId,
-            // uniqueId:uniqueId !== '无'?`${uniqueId}\t`:uniqueId,
             thumbnail,
 
             authorName,
             authorUrl,
             authorUniqueId:authorUniqueId !== '无'?`${authorUniqueId}a`:authorUniqueId,
-            // authorUniqueId:authorUniqueId !== '无'?`${authorUniqueId}\t`:authorUniqueId,
 
             viewCountStr,
             likeCountStr,
