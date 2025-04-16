@@ -1,5 +1,5 @@
 import { f_jointMultiplePath } from "../lib/functions";
-import BaseDataExporter from "./BaseDataExporter";
+import BaseDataExporter, { BaseDataExporterConfigType } from "./BaseDataExporter";
 
 
 

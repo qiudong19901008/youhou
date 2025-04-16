@@ -1,9 +1,9 @@
 import Base from "./Base";
 
-// export interface BaseDataExporterConfigType{
-//     filename?:string,
-//     noteElementFlagAttr?:string,
-// }
+export interface BaseDataExporterConfigType{
+    filename?:string,
+    noteElementFlagAttr?:string,
+}
 
 
 
@@ -101,6 +101,10 @@ export default abstract class BaseDataExporter extends Base{
         // 增加计数器
         this.count++;
     }
+
+    // protected getExportToCsvType(): "my" | "export-to-csv" {
+    //     return 'export-to-csv';
+    // }
 
 
     protected abstract getNoteElements():NodeListOf<Element>;

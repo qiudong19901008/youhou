@@ -1,5 +1,5 @@
 import { mkConfig, generateCsv, download } from "export-to-csv";
-import { RowObjType, RowType } from "../../DataExporter/Base";
+import { RowObjType, RowType } from "../../DataExporter.old/Base";
 import { downloadToCsv, downloadToCsvByReader } from "./MyCsvExporter";
 
 
@@ -8,35 +8,36 @@ interface DataToCsvExporterConfigType{
     headerArr:RowType,
     fn:string,
     
-    type:'my'|'export-to-csv'
+    // type:'my'|'export-to-csv'
 }
 
 
 export default class DataToCsvExporter{
 
     private _rowObjArr:RowObjType[];
-    private _rowArr:RowType[];
+    // private _rowArr:RowType[];
     private _headerArr:RowType;
     private _fn:string;
-    private _type:'my'|'export-to-csv'
+    // private _type:'my'|'export-to-csv'
 
     constructor(config:DataToCsvExporterConfigType){
         this._rowObjArr = config.rowObjArr;
-        this._rowArr = this._rowObjArrToRowArr(config.rowObjArr);
+        // this._rowArr = this._rowObjArrToRowArr(config.rowObjArr);
         this._headerArr = config.headerArr;
         this._fn = config.fn;
-        this._type = config.type;
+        // this._type = config.type;
     }
 
     public run(){
-        switch(this._type){
-            case 'my':
-                this._myExportToCSV(this._rowArr,this._fn,this._headerArr);
-                break;
-            case 'export-to-csv':
-                this._downloadToCsvWithRowObjType(this._rowObjArr,this._fn,this._headerArr);
-                break;
-        }
+        this._downloadToCsvWithRowObjType(this._rowObjArr,this._fn,this._headerArr);
+        // switch(this._type){
+        //     case 'my':
+        //         this._myExportToCSV(this._rowArr,this._fn,this._headerArr);
+        //         break;
+        //     case 'export-to-csv':
+        //         this._downloadToCsvWithRowObjType(this._rowObjArr,this._fn,this._headerArr);
+        //         break;
+        // }
     }
 
 
@@ -88,30 +89,30 @@ export default class DataToCsvExporter{
     //     download(csvConfig)(csv)
     // }
 
-    private _rowObjArrToRowArr(rowObjArr:RowObjType[]){
-        let res:RowType[] = [];
-        for(let rowObj of rowObjArr){
-            res.push([
-                rowObj.title,
-                rowObj.url,
-                rowObj.uniqueId,
-                rowObj.thumbnail,
+    // private _rowObjArrToRowArr(rowObjArr:RowObjType[]){
+    //     let res:RowType[] = [];
+    //     for(let rowObj of rowObjArr){
+    //         res.push([
+    //             rowObj.title,
+    //             rowObj.url,
+    //             rowObj.uniqueId,
+    //             rowObj.thumbnail,
 
-                rowObj.authorName,
-                rowObj.authorUrl,
-                rowObj.authorUniqueId,
+    //             rowObj.authorName,
+    //             rowObj.authorUrl,
+    //             rowObj.authorUniqueId,
 
-                rowObj.viewCountStr,
-                rowObj.likeCountStr,
-                rowObj.durationSecondsStr,
+    //             rowObj.viewCountStr,
+    //             rowObj.likeCountStr,
+    //             rowObj.durationSecondsStr,
 
-                rowObj.illegal,
+    //             rowObj.illegal,
 
-                rowObj.param1,
-            ])
-        }
-        return res;
-    }
+    //             rowObj.param1,
+    //         ])
+    //     }
+    //     return res;
+    // }
 
 
 
@@ -134,32 +135,32 @@ export default class DataToCsvExporter{
     // }
 
 
-    private _myExportToCSV = (rows:RowType[], filename:string,headerArr:RowType)=>{
-        // navigator.msSaveBlob(blob, fileName);
-        rows.unshift(headerArr);
+    // private _myExportToCSV = (rows:RowType[], filename:string,headerArr:RowType)=>{
+    //     // navigator.msSaveBlob(blob, fileName);
+    //     rows.unshift(headerArr);
 
-        // 删除第三行数据
-        //data.splice(2, 1);
-        // 添加BOM头以处理UTF-8编码
-        // const begin = "data:text/csv;charset=utf-8,\uFEFF";
-        const begin = "data:text/csv;charset=utf-8,%EF%BB%BF";
-        const content = rows.map((row,i) => {
-            const one =  row.join(",");
-            return one;
-        }).join("\r\n");
+    //     // 删除第三行数据
+    //     //data.splice(2, 1);
+    //     // 添加BOM头以处理UTF-8编码
+    //     // const begin = "data:text/csv;charset=utf-8,\uFEFF";
+    //     const begin = "data:text/csv;charset=utf-8,%EF%BB%BF";
+    //     const content = rows.map((row,i) => {
+    //         const one =  row.join(",");
+    //         return one;
+    //     }).join("\r\n");
 
 
-        const csv = begin + content;
-        const encodedUri = encodeURI(csv);
+    //     const csv = begin + content;
+    //     const encodedUri = encodeURI(csv);
         
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", filename);
-        document.body.appendChild(link);
-        // 需要将链接元素添加到文档中才能生效
-        link.click();
-        document.body.removeChild(link);
-    }
+    //     const link = document.createElement("a");
+    //     link.setAttribute("href", encodedUri);
+    //     link.setAttribute("download", filename);
+    //     document.body.appendChild(link);
+    //     // 需要将链接元素添加到文档中才能生效
+    //     link.click();
+    //     document.body.removeChild(link);
+    // }
 }
 
 

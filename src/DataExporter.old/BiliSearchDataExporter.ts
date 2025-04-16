@@ -1,4 +1,4 @@
-import Base from "./BaseDataExporter";
+import Base, { BaseDataExporterConfigType } from "./BaseDataExporter";
 
 
 
@@ -127,6 +127,20 @@ export default class BiliSearchDataExporter extends Base{
 
     protected getLikeCountStr(ele:Element){
         return '0';
+        // const likeElement = ele.querySelector('a > div > div.videoImage > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > span') as HTMLSpanElement;
+        // let likeCountStr = likeElement ? likeElement.innerText : '';
+        // if(likeCountStr.endsWith('w')){
+        //     const likeCount = parseFloat(likeCountStr.replace('w','')) * 10000;
+        //     likeCountStr = likeCount +'';
+        // }
+        // if(likeCountStr.endsWith('万')){
+        //     const likeCount = parseFloat(likeCountStr.replace('万','')) * 10000;
+        //     likeCountStr = likeCount +'';
+        // }
+        // if(likeCountStr === '赞' || !likeCountStr){
+        //     likeCountStr = '0';
+        // }
+        // return likeCountStr;
     }
 
     protected getDurationSecondsStr(ele:Element){

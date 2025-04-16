@@ -1,4 +1,4 @@
-import Base from "./BaseDataExporter";
+import Base, { BaseDataExporterConfigType } from "./BaseDataExporter";
 
 
 

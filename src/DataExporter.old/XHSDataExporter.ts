@@ -1,11 +1,16 @@
 import { f_getQueryVar } from "../lib/functions";
-import Base from "./BaseDataExporter";
+import Base, { BaseDataExporterConfigType } from "./BaseDataExporter";
 
+interface XHSDataExporterConfigType extends BaseDataExporterConfigType{
+   
+}
 
 export default class XHSDataExporter extends Base{
 
     
   
+    
+
     constructor(){
         super();      
     }

@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-import DataExporterContext, { DataExporterTypeEnum } from "../DataExporter";
+import DataExporterContext, { DataExporterTypeEnum } from "../DataExporter.old";
 
 (function() {
     
