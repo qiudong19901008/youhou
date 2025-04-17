@@ -1,16 +1,22 @@
-import { f_getQueryVar } from "../lib/functions";
-import Base from "./BaseDataExporter";
 
 
-export default class XHSDataExporter extends Base{
 
-    
-  
-    constructor(){
-        super();      
-    }
+import BaseDataExporter from "./BaseDataExporter";
+import NoteDataGetter from "./NoteDataGetter";
+import { XHSNoteDataType } from "./NoteDataGetter/XHSNoteDataGetter";
 
-    // 第一部分
+// export interface BaseDataExporterConfigType{
+//     filename?:string,
+//     noteElementFlagAttr?:string,
+// }
+// XHSNoteDataType
+interface XHSNoteDataMapType{
+    [uniqueId:string]:XHSNoteDataType,
+}
+
+
+export default class XHSDataExporter extends BaseDataExporter{
+
     protected tryGetSearchPageSearchKeywords(){
         const keywordInputEle = document.querySelector('#search-input') as HTMLInputElement|null;
         if (!keywordInputEle) {
@@ -32,153 +38,83 @@ export default class XHSDataExporter extends Base{
         return '小红书数据'
     }
 
-    // 第二部分
-    protected getNoteElements(){
-        const res = document.querySelectorAll(`section.note-item > div`);
-        return res;
-    }
-
-
-    protected getTitle(ele:Element){
-        // 提取标题和笔记链接
-        // const titleElement = ele.querySelector('a.title span') as HTMLSpanElement;
-        const titleElement = ele.querySelector('.footer a.title span') as HTMLSpanElement;
-        let title = titleElement ? titleElement.innerText : '无';
-        return title;
+    
+    // 创建一个Set，用于存储已提取的笔记链接
+    private _dataMap:XHSNoteDataMapType = {};
+    // protected count = 0;
+// '标题', '链接', '唯一标识', '封面', '作者名', '作者链接','作者唯一标识', '浏览量', '点赞数','播放时长','是否违规'
+    constructor(){
+        super();
+        // 添加表头
+        // this.rows.push(['标题', '链接', '唯一标识', '封面', '作者名', '作者链接','作者唯一标识', '浏览量', '点赞数','播放时长','是否违规']);
+        // 第一次加载，提取笔记内容数据
+        this._extractNoteData();
+        // 监听页面滚动事件，当加载更多内容时，提取更多数据
+        window.addEventListener("scroll", ()=>{
+            this._extractNoteData();
+        });
     }
 
     
-
-    protected getUrl(ele:Element){
-        // 如果无标题则当做没有处理
-        const titleElement = ele.querySelector('.footer a.title span') as HTMLSpanElement;
-        if(!titleElement){
-            return '无'
-        }
-        const url = 'https://www.xiaohongshu.com' + ele.querySelector('a')?.getAttribute('href');
-        return url;
+    // 提取笔记内容数据
+    private _extractNoteData = () => {
+        const eles = this.getNoteElements();
+        eles.forEach((ele) => {
+            this._extractOneNote(ele);   
+        });
+        // 更新当前采集数量的显示
+        this.countElement.innerText = "已采集：" + this.count + "条";
     }
 
-    protected getUniqueId(ele: Element): string {
-        const url = this.getUrl(ele);
-        if(url === '无'){
-            return url;
+    private _update
+
+    // 提取一篇
+    private _extractOneNote = (ele:Element)=>{
+        // 检查是否已提取过该笔记内容数据
+        if(ele.classList.contains('extracted')){
+            return;
         }
-        // https://www.xiaohongshu.com/explore/66becb0d000000000503abd2
-        const arr = url.split('/');
-        return arr[arr.length-1]
-    }
-
-    protected getThumbnail(ele:Element){
-        const imageEle = ele.querySelector('a.cover > img') as HTMLImageElement;
-        if(!imageEle){
-            return '无';
-        }
-        const url = imageEle.getAttribute('src');
-        if(url){
-            // https://sns-webpic-qc.xhscdn.com/202408141010/b7fea120d4aa08edecf673e3281f0e95/1040g008315mv4jg01c605pgmcc2hojgfppdf9tg!nc_n_webp_mw_1
-            const id = url.split("/")[5].split("!")[0]
-            let pngUrl = `https://ci.xiaohongshu.com/${id}?imageView2/2/w/format/png`;
-            return pngUrl;
-        }        
-        return '无';
-    }
-
-    private _getAuthorElement(ele:Element){
-        let res = ele.querySelector('.footer div.author-wrapper a.author') as HTMLAnchorElement;
-        if(!res){
-            res = ele.querySelector('.footer div.card-bottom-wrapper a.author') as HTMLAnchorElement;
-        }
-        return res;
-    }
-
-    protected getAuthorName(ele:Element){
-        // 提取作者和作者链接
-        const authorElement = this._getAuthorElement(ele);
-
-        if(!authorElement){
-            return '无'
+        const data = NoteDataGetter.getXHSNoteData(ele);
+        // 已提取过链接的不在重复提取，有时有一页会出现相同的两篇文章，就算元素标记了extracted还是会提取重复
+        if(this.extractedLinks.has(data.url)){
+            return;
         }
 
-        const authorSpanEle = authorElement.querySelector('span.name') as HTMLSpanElement;
-        if(!authorSpanEle){
-            return '无'
-        }
-        let authorName = authorSpanEle.innerText;
-        return authorName;
-    }
+      
+        // 将提取的数据添加到数组中
+        // this.rows.push({
+        //     title,
+        //     url:url+'',
+        //     uniqueId:uniqueId !== '无'?`${uniqueId}a`:uniqueId,
+        //     thumbnail,
 
-    protected getAuthorUrl(ele:Element){
-        const authorElement = this._getAuthorElement(ele);
-        if(!authorElement){
-            return '无'
-        }
-        const authorLink = 'https://www.xiaohongshu.com' + authorElement.getAttribute('href').split('?')[0];
-        return authorLink;
-    }
+        //     authorName,
+        //     authorUrl,
+        //     authorUniqueId:authorUniqueId !== '无'?`${authorUniqueId}a`:authorUniqueId,
 
-    protected getAuthorUniqueId(ele: Element) {
-        const url = this.getAuthorUrl(ele);
-        if(url === '无'){
-            return url;
-        }
-        // https://www.xiaohongshu.com/user/profile/5fe40577000000000101f9fc
-        const arr = url.split('/');
-        return arr[arr.length-1]
+        //     viewCountStr,
+        //     likeCountStr,
+        //     durationSecondsStr,
+
+        //     illegal,
+
+        //     param1:param1 !== '无'?`${param1}a`:param1,
+        // });
+        // 将笔记链接添加到已提取的链接集合中
+        this.extractedLinks.add(url);
+        // 标记为已提取
+        ele.classList.add('extracted');
+        // 增加计数器
+        this.count++;
     }
 
 
-
-    protected getViewCountStr(ele:Element){
-        return '0';
-    }
-
-    protected getLikeCountStr(ele:Element){
-        const likeElement = ele.querySelector('span.like-wrapper span.count') as HTMLSpanElement;
-        let likeCountStr = likeElement ? likeElement.innerText : '';
-        if(likeCountStr.endsWith('w')){
-            const likeCount = parseFloat(likeCountStr.replace('w','')) * 10000;
-            likeCountStr = likeCount +'';
-        }
-        if(likeCountStr.endsWith('万')){
-            const likeCount = parseFloat(likeCountStr.replace('万','')) * 10000;
-            likeCountStr = likeCount +'';
-        }
-        if(likeCountStr === '赞'){
-            likeCountStr = '0';
-        }
-        return likeCountStr;
-    }
-
-    protected getDurationSecondsStr(ele: Element): string {
-        return '0';
-    }
-
-    protected getIllegal(ele:Element){
-        let illegal = '否';
-        const tagArea = ele.querySelector('.bottom-tag-area');
-        if(tagArea && tagArea.innerHTML.includes('违规')){
-            illegal = '是'
-        }
-        return illegal;
-    }
-
-    protected getParam1(ele:Element){
-        // 有标题则获取
-        const coverAEle = ele.querySelector('a.cover') as HTMLLinkElement;
-        if(!coverAEle){
-            return '无';
-        }
-        // /search_result/675a9ae60000000006039462?xsec_token=ABui8cdN7qM5UtArao_qy0fvyLnsX8Z5e-zMEQD_bqf5k=&xsec_source=
-        const href = coverAEle.getAttribute('href');
-        const value = f_getQueryVar(href,'xsec_token');
-        if(!value){
-            return '无';
-        }
-        return value;
-    }
+    protected abstract getNoteElements():NodeListOf<Element>;
 
     
-   
+
+
+
+    
 
 }

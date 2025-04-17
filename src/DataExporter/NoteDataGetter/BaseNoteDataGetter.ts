@@ -1,6 +1,6 @@
 
 
-export interface BaseNoteData{
+export interface BaseNoteDataType{
     title:string,
     url:string,
     uniqueId:string,
@@ -14,7 +14,9 @@ export interface BaseNoteData{
     illegal:string,
 }
 
-export default abstract class Base{
+export default abstract class BaseNoteDataGetter<T extends BaseNoteDataType>{
+
+    public abstract run(ele:Element):T;
 
     protected abstract getTitle(ele:Element):string;
     protected abstract getUrl(ele:Element):string;
@@ -49,7 +51,20 @@ export default abstract class Base{
 
         // 其他
         const thumbnail = this.getThumbnail(ele);
-        const illegal = this.getIllegal(ele);  
+        const illegal = this.getIllegal(ele);
+        return {
+            title,
+            url,
+            uniqueId,
+
+            thumbnail,
+
+            authorName,
+            authorUrl,
+            authorUniqueId,
+
+            illegal,
+        }
    }
 
 }

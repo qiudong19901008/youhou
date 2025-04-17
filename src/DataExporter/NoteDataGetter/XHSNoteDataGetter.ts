@@ -1,15 +1,20 @@
 import { f_getQueryVar } from "../../lib/functions";
-import Base, { BaseNoteData } from "./Base";
+import Base, { BaseNoteDataType } from "./BaseNoteDataGetter";
 
-interface XHSNoteData extends BaseNoteData{
+export interface XHSNoteDataType extends BaseNoteDataType{
     likeCountStr:string,
     xsec_token:string,
 }
 
-class XHSGetNoteData extends Base{
+class XHSGetNoteData extends Base<XHSNoteDataType>{
 
-    public run(ele:Element){
+    public run(ele:Element):XHSNoteDataType{
         const baseData = this.__getBaseNoteData(ele);
+        return {
+            ...baseData,
+            likeCountStr:this._getLikeCountStr(ele),
+            xsec_token:this._get_xsec_token(ele),
+        }
     }
 
     private _get_xsec_token(ele:Element){
