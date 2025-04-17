@@ -4,7 +4,9 @@ import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 // import dts from "rollup-plugin-dts";
-// output.compact
+// import XLSX from 'xlsx';
+
+
 const config = [
     //1
     {
@@ -14,10 +16,12 @@ const config = [
                 file: './dist/dist_xiaohongshu.js',
                 // format: 'es',
                 // sourcemap: true,
-
-                compact:true,
             }
         ],
+        external: ['XLSX'],
+        // globals: {
+        //     XLSX
+        // },
         plugins: [
             
             babel({
