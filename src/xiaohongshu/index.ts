@@ -22,7 +22,7 @@ import OtherPlatformSearcher from "./OtherPlatformSearcher";
         || window.location.href.includes('/profile/')
     ){
         // new DataExporterContext(DataExporterTypeEnum.小红书);
-        new DataCollectorContext(PlatformTypeEnum.小红书);
+        // new DataCollectorContext(PlatformTypeEnum.小红书);
     }
 
     if (window.location.href.includes('/search_result')) {
