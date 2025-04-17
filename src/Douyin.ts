@@ -9,13 +9,13 @@
 // @grant        none
 // ==/UserScript==
 
-import DataExporterContext, { DataExporterTypeEnum } from "../DataExporter.old";
+// import DataExporterContext, { DataExporterTypeEnum } from "./DataExporter.old";
 
 (function() {
     
     'use strict';
     if(window.location.href.includes('/search/')){
-        new DataExporterContext(DataExporterTypeEnum.抖音搜索);
+        // new DataExporterContext(DataExporterTypeEnum.抖音搜索);
     }
 
 })()

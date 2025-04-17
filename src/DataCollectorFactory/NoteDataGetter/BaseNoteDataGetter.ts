@@ -1,17 +1,23 @@
 
 
 export interface BaseNoteDataType{
-    title:string,
-    url:string,
-    uniqueId:string,
 
-    thumbnail:string,
+    'uniqueId':string,
 
-    authorName:string,
-    authorUrl:string,
-    authorUniqueId:string,
+    '标题':string,
+    '链接':string,
+    '封面':string,
 
-    illegal:string,
+    '作者名':string,
+    '作者主页':string,
+
+    '是否违规':string,
+
+    // uniqueId:string,
+    // authorName:string,
+    // authorUrl:string,
+    // authorUniqueId:string,
+    // illegal:string,
 }
 
 export default abstract class BaseNoteDataGetter<T extends BaseNoteDataType>{
@@ -41,29 +47,29 @@ export default abstract class BaseNoteDataGetter<T extends BaseNoteDataType>{
 
    protected __getBaseNoteData(ele:Element){
         // 文章主体
-        const title = this.__pureStr(this.getTitle(ele));
-        const url = this.getUrl(ele);
+        const 标题 = this.__pureStr(this.getTitle(ele));
+        const 链接 = this.getUrl(ele);
         const uniqueId = this.getUniqueId(ele);
         // 作者主体
-        const authorName = this.__pureStr(this.getAuthorName(ele));
-        const authorUrl = this.getAuthorUrl(ele);
+        const 作者名 = this.__pureStr(this.getAuthorName(ele));
+        const 作者主页 = this.getAuthorUrl(ele);
         const authorUniqueId = this.getAuthorUniqueId(ele);
 
         // 其他
-        const thumbnail = this.getThumbnail(ele);
-        const illegal = this.getIllegal(ele);
+        const 封面 = this.getThumbnail(ele);
+        const 是否违规 = this.getIllegal(ele);
         return {
-            title,
-            url,
+
             uniqueId,
 
-            thumbnail,
+            标题,
+            链接,
+            封面,
 
-            authorName,
-            authorUrl,
-            authorUniqueId,
+            作者名,
+            作者主页,
 
-            illegal,
+            是否违规,
         }
    }
 

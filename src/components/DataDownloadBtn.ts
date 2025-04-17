@@ -1,26 +1,27 @@
-import DataToCsvExporter from "../../lib/DataToCsvExporter";
+import { FuncType } from "../lib/types";
 
 
 export default class DataDownloadBtn{
 
     private static _instance:DataDownloadBtn;
 
-    private _exporter:DataToCsvExporter;
+    // private _exporter:DataToCsvExporter;
     private _btn:HTMLButtonElement;
 
-    public static getInstance(exporter:DataToCsvExporter){
+    public static getInstance(func:FuncType){
         if(this._instance){
             return this._instance;
         }
-        this._instance = new DataDownloadBtn(exporter);
+        this._instance = new DataDownloadBtn(func);
         return this._instance;
     }
 
-    protected constructor(exporter:DataToCsvExporter){
+    protected constructor(func:FuncType){
         this._btn = this._getDownloadDataBtn();
 
         this._btn.addEventListener("click", () => {
-            exporter.run();
+            func();
+            // Helper.downloadNotes([],'11')
         });
 
         document.body.appendChild(this._btn);
@@ -42,8 +43,6 @@ export default class DataDownloadBtn{
         downloadBtn.style.padding = "10px";
         downloadBtn.style.fontSize = "16px";
         downloadBtn.style.cursor = "pointer";
-
-        document.body.appendChild(downloadBtn);
         return downloadBtn;
     }
 

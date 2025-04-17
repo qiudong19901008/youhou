@@ -2,8 +2,8 @@ import { f_getQueryVar } from "../../lib/functions";
 import Base, { BaseNoteDataType } from "./BaseNoteDataGetter";
 
 export interface XHSNoteDataType extends BaseNoteDataType{
-    likeCountStr:string,
-    xsec_token:string,
+    '点赞数':string,
+    // xsec_token:string,
 }
 
 class XHSGetNoteData extends Base<XHSNoteDataType>{
@@ -12,25 +12,12 @@ class XHSGetNoteData extends Base<XHSNoteDataType>{
         const baseData = this.__getBaseNoteData(ele);
         return {
             ...baseData,
-            likeCountStr:this._getLikeCountStr(ele),
-            xsec_token:this._get_xsec_token(ele),
+            点赞数:this._getLikeCountStr(ele),
+            // xsec_token:this._get_xsec_token(ele),
         }
     }
 
-    private _get_xsec_token(ele:Element){
-        // 有标题则获取
-        const coverAEle = ele.querySelector('a.cover') as HTMLLinkElement;
-        if(!coverAEle){
-            return '无';
-        }
-        // /search_result/675a9ae60000000006039462?xsec_token=ABui8cdN7qM5UtArao_qy0fvyLnsX8Z5e-zMEQD_bqf5k=&xsec_source=
-        const href = coverAEle.getAttribute('href');
-        const value = f_getQueryVar(href,'xsec_token');
-        if(!value){
-            return '无';
-        }
-        return value;
-    }
+    
 
     private _getLikeCountStr(ele:Element){
         const likeElement = ele.querySelector('span.like-wrapper span.count') as HTMLSpanElement;
@@ -49,6 +36,20 @@ class XHSGetNoteData extends Base<XHSNoteDataType>{
         return likeCountStr;
     }
 
+    // private _get_xsec_token(ele:Element){
+    //     // 有标题则获取
+    //     const coverAEle = ele.querySelector('a.cover') as HTMLLinkElement;
+    //     if(!coverAEle){
+    //         return '无';
+    //     }
+    //     // /search_result/675a9ae60000000006039462?xsec_token=ABui8cdN7qM5UtArao_qy0fvyLnsX8Z5e-zMEQD_bqf5k=&xsec_source=
+    //     const href = coverAEle.getAttribute('href');
+    //     const value = f_getQueryVar(href,'xsec_token');
+    //     if(!value){
+    //         return '无';
+    //     }
+    //     return value;
+    // }
 
     protected getTitle(ele: Element): string {
        // 提取标题和笔记链接
@@ -60,22 +61,28 @@ class XHSGetNoteData extends Base<XHSNoteDataType>{
     
     protected getUrl(ele: Element): string {
         // 如果无标题则当做没有处理
-        const titleElement = ele.querySelector('.footer a.title span') as HTMLSpanElement;
-        if(!titleElement){
+        const aEle = ele.querySelector('a.cover') as HTMLLinkElement;
+        if(!aEle){
             return '无'
         }
-        const url = 'https://www.xiaohongshu.com' + ele.querySelector('a')?.getAttribute('href');
-        return url;
+        // const url = 'https://www.xiaohongshu.com' + aEle.querySelector('a')?.getAttribute('href');
+        const href = 'https://www.xiaohongshu.com' + aEle.getAttribute('href');
+        return href;
     }
     protected getUniqueId(ele: Element): string {
         const url = this.getUrl(ele);
         if(url === '无'){
             return url;
         }
-        // https://www.xiaohongshu.com/explore/66becb0d000000000503abd2
-        const arr = url.split('/');
+        // https://www.xiaohongshu.com/explore/66becb0d000000000503abd2?xxxx
+        const pureUrl = url.split('?')[0];
+        if(!pureUrl){
+            return '无';
+        }
+        const arr = pureUrl.split('/');
         return arr[arr.length-1]
     }
+    
     protected getThumbnail(ele: Element): string {
         const imageEle = ele.querySelector('a.cover > img') as HTMLImageElement;
         if(!imageEle){
@@ -139,62 +146,6 @@ class XHSGetNoteData extends Base<XHSNoteDataType>{
         return res;
     }
 
-        //  // 提取一篇
-        //  private _extractOneNote = (ele:Element)=>{
-        //     // 检查是否已提取过该笔记内容数据
-        //     if(ele.classList.contains('extracted')){
-        //         return;
-        //     }
-    
-        //     //文章主体
-        //     const title = this.__pureStr(this.getTitle(ele));
-        //     const url = this.getUrl(ele);
-        //     // 已提取过链接的不在重复提取，有时有一页会出现相同的两篇文章，就算元素标记了extracted还是会提取重复
-        //     // if(this.extractedLinks.has(url)){
-        //     //     return;
-        //     // }
-        //     const uniqueId = this.getUniqueId(ele);
-        //     const thumbnail = this.getThumbnail(ele);
-        //     //作者主体
-        //     const authorName = this.__pureStr(this.getAuthorName(ele));
-        //     const authorUrl = this.getAuthorUrl(ele);
-        //     const authorUniqueId = this.getAuthorUniqueId(ele);
-        //     //作者meta
-        //     // const viewCountStr = this.getViewCountStr(ele);
-        //     // const likeCountStr = this.getLikeCountStr(ele);
-        //     // const durationSecondsStr = this.getDurationSecondsStr(ele);
-    
-        //     const illegal = this.getIllegal(ele);  
-    
-        //     // const param1 = this.getParam1(ele);
-    
-        //     // 将提取的数据添加到数组中
-        //     // this.rows.push({
-        //     //     title,
-        //     //     url:url+'',
-        //     //     uniqueId:uniqueId !== '无'?`${uniqueId}a`:uniqueId,
-        //     //     thumbnail,
-    
-        //     //     authorName,
-        //     //     authorUrl,
-        //     //     authorUniqueId:authorUniqueId !== '无'?`${authorUniqueId}a`:authorUniqueId,
-    
-        //     //     // viewCountStr,
-        //     //     // likeCountStr,
-        //     //     // durationSecondsStr,
-    
-        //     //     illegal,
-    
-        //     //     // param1:param1 !== '无'?`${param1}a`:param1,
-        //     // });
-        //     // // 将笔记链接添加到已提取的链接集合中
-        //     // this.extractedLinks.add(url);
-        //     // // 标记为已提取
-        //     // ele.classList.add('extracted');
-        //     // // 增加计数器
-        //     // this.count++;
-        // }
-    
 
 
 }
