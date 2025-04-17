@@ -69,6 +69,7 @@ export default class XHSDataExporter extends BaseDataExporter{
 
     private _update
 
+
     // 提取一篇
     private _extractOneNote = (ele:Element)=>{
         // 检查是否已提取过该笔记内容数据
