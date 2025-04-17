@@ -1,6 +1,8 @@
 import DataToCsvExporter from "../lib/DataToCsvExporter";
 import DataExporterHelper from "./DataExporterHelper";
-
+import EleCreator from "./EleCreator";
+import DataCountEle from "./EleCreator/DataCountEle";
+import DataDownloadBtn from "./EleCreator/DataDownloadBtn";
 
 export type BaseRowObjType = {
     title:string,
@@ -57,8 +59,8 @@ export type RowObjType = {
 
 export default abstract class Base{
 
-    protected countElement:HTMLDivElement;
-    protected downloadBtn:HTMLButtonElement;
+    protected dataCountEle:DataCountEle;
+    protected dataDownloadBtn:DataDownloadBtn;
     protected rows:RowObjType[] = [];
     protected headerArr:RowType = [
         '标题', 
@@ -80,8 +82,8 @@ export default abstract class Base{
     ]
 
     constructor(){
-        this.countElement = DataExporterHelper.createCountElement();
-        this.downloadBtn = DataExporterHelper.creatDownloadBtn(this._getCsvExporter());
+        this.dataCountEle = EleCreator.getDataCountEle();
+        this.dataDownloadBtn = EleCreator.getDataDownloadBtn(this._getCsvExporter());
     }
 
     protected abstract tryGetSearchPageSearchKeywords():string;

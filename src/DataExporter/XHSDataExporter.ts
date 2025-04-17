@@ -5,11 +5,7 @@ import BaseDataExporter from "./BaseDataExporter";
 import NoteDataGetter from "./NoteDataGetter";
 import { XHSNoteDataType } from "./NoteDataGetter/XHSNoteDataGetter";
 
-// export interface BaseDataExporterConfigType{
-//     filename?:string,
-//     noteElementFlagAttr?:string,
-// }
-// XHSNoteDataType
+
 interface XHSNoteDataMapType{
     [uniqueId:string]:XHSNoteDataType,
 }
@@ -55,6 +51,11 @@ export default class XHSDataExporter extends BaseDataExporter{
         });
     }
 
+    private _getCollectedCount(){
+        // this._dataMap
+        const res = Object.keys(this._dataMap).length;
+        return res;
+    }
     
     // 提取笔记内容数据
     private _extractNoteData = () => {
@@ -63,7 +64,7 @@ export default class XHSDataExporter extends BaseDataExporter{
             this._extractOneNote(ele);   
         });
         // 更新当前采集数量的显示
-        this.countElement.innerText = "已采集：" + this.count + "条";
+        this.countElement.innerText = "已采集：" + this._getCollectedCount() + "条";
     }
 
     private _update

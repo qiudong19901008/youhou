@@ -49,61 +49,6 @@ class XHSGetNoteData extends Base<XHSNoteDataType>{
         return likeCountStr;
     }
 
-     // 提取一篇
-     private _extractOneNote = (ele:Element)=>{
-        // 检查是否已提取过该笔记内容数据
-        if(ele.classList.contains('extracted')){
-            return;
-        }
-
-        //文章主体
-        const title = this.__pureStr(this.getTitle(ele));
-        const url = this.getUrl(ele);
-        // 已提取过链接的不在重复提取，有时有一页会出现相同的两篇文章，就算元素标记了extracted还是会提取重复
-        // if(this.extractedLinks.has(url)){
-        //     return;
-        // }
-        const uniqueId = this.getUniqueId(ele);
-        const thumbnail = this.getThumbnail(ele);
-        //作者主体
-        const authorName = this.__pureStr(this.getAuthorName(ele));
-        const authorUrl = this.getAuthorUrl(ele);
-        const authorUniqueId = this.getAuthorUniqueId(ele);
-        //作者meta
-        // const viewCountStr = this.getViewCountStr(ele);
-        // const likeCountStr = this.getLikeCountStr(ele);
-        // const durationSecondsStr = this.getDurationSecondsStr(ele);
-
-        const illegal = this.getIllegal(ele);  
-
-        // const param1 = this.getParam1(ele);
-
-        // 将提取的数据添加到数组中
-        // this.rows.push({
-        //     title,
-        //     url:url+'',
-        //     uniqueId:uniqueId !== '无'?`${uniqueId}a`:uniqueId,
-        //     thumbnail,
-
-        //     authorName,
-        //     authorUrl,
-        //     authorUniqueId:authorUniqueId !== '无'?`${authorUniqueId}a`:authorUniqueId,
-
-        //     // viewCountStr,
-        //     // likeCountStr,
-        //     // durationSecondsStr,
-
-        //     illegal,
-
-        //     // param1:param1 !== '无'?`${param1}a`:param1,
-        // });
-        // // 将笔记链接添加到已提取的链接集合中
-        // this.extractedLinks.add(url);
-        // // 标记为已提取
-        // ele.classList.add('extracted');
-        // // 增加计数器
-        // this.count++;
-    }
 
     protected getTitle(ele: Element): string {
        // 提取标题和笔记链接
@@ -193,6 +138,63 @@ class XHSGetNoteData extends Base<XHSNoteDataType>{
         }
         return res;
     }
+
+        //  // 提取一篇
+        //  private _extractOneNote = (ele:Element)=>{
+        //     // 检查是否已提取过该笔记内容数据
+        //     if(ele.classList.contains('extracted')){
+        //         return;
+        //     }
+    
+        //     //文章主体
+        //     const title = this.__pureStr(this.getTitle(ele));
+        //     const url = this.getUrl(ele);
+        //     // 已提取过链接的不在重复提取，有时有一页会出现相同的两篇文章，就算元素标记了extracted还是会提取重复
+        //     // if(this.extractedLinks.has(url)){
+        //     //     return;
+        //     // }
+        //     const uniqueId = this.getUniqueId(ele);
+        //     const thumbnail = this.getThumbnail(ele);
+        //     //作者主体
+        //     const authorName = this.__pureStr(this.getAuthorName(ele));
+        //     const authorUrl = this.getAuthorUrl(ele);
+        //     const authorUniqueId = this.getAuthorUniqueId(ele);
+        //     //作者meta
+        //     // const viewCountStr = this.getViewCountStr(ele);
+        //     // const likeCountStr = this.getLikeCountStr(ele);
+        //     // const durationSecondsStr = this.getDurationSecondsStr(ele);
+    
+        //     const illegal = this.getIllegal(ele);  
+    
+        //     // const param1 = this.getParam1(ele);
+    
+        //     // 将提取的数据添加到数组中
+        //     // this.rows.push({
+        //     //     title,
+        //     //     url:url+'',
+        //     //     uniqueId:uniqueId !== '无'?`${uniqueId}a`:uniqueId,
+        //     //     thumbnail,
+    
+        //     //     authorName,
+        //     //     authorUrl,
+        //     //     authorUniqueId:authorUniqueId !== '无'?`${authorUniqueId}a`:authorUniqueId,
+    
+        //     //     // viewCountStr,
+        //     //     // likeCountStr,
+        //     //     // durationSecondsStr,
+    
+        //     //     illegal,
+    
+        //     //     // param1:param1 !== '无'?`${param1}a`:param1,
+        //     // });
+        //     // // 将笔记链接添加到已提取的链接集合中
+        //     // this.extractedLinks.add(url);
+        //     // // 标记为已提取
+        //     // ele.classList.add('extracted');
+        //     // // 增加计数器
+        //     // this.count++;
+        // }
+    
 
 
 }
