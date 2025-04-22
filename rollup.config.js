@@ -4,7 +4,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 // import dts from "rollup-plugin-dts";
-// import XLSX from 'xlsx';
+import XLSX from 'xlsx';
 
 
 const config = [
