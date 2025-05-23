@@ -1,43 +1,46 @@
 import typescript from "@rollup/plugin-typescript";
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs'
-import nodeResolve from '@rollup/plugin-node-resolve';
-import terser from '@rollup/plugin-terser';
-// import dts from "rollup-plugin-dts";
-import XLSX from 'xlsx';
+import { nodeResolve } from '@rollup/plugin-node-resolve'; // 引入 nodeResolve 插件
+// import { terser } from '@rollup/plugin-terser'; // 引入 terser 插件，用于压缩代码
+import terser from '@rollup/plugin-terser'; // 引入 terser 插件，用于压缩代码
 
 
 const config = [
     //1
     {
-        input: 'src/xiaohongshu/index.ts',
+        input: 'src/api/XHSApi.ts',
         output: [
             {
-                file: './dist/dist_xiaohongshu.js',
+                file: './dist/dist_xhs.js',
                 // format: 'es',
                 // sourcemap: true,
             }
         ],
-        external: ['XLSX'],
-        // globals: {
-        //     XLSX
-        // },
         plugins: [
             
-            babel({
-                exclude: 'node_modules/**',
-            }),
+            // babel({
+            //     exclude: 'node_modules/**',
+            // }),
             typescript({
-                tsconfig: './tsconfig.json'
+                tsconfig: './tsconfig.json',
+                include:'src/**'
             }),
             commonjs(),
-            nodeResolve({
-                jsnext: true,
-                main: true,
-                browser: true
-            }),
-            // terser(),
-        ]
+            nodeResolve(
+                {
+                    jsnext: true,
+                    main: true,
+                    browser: true
+                }
+            ),
+            // 脚本不能使用压缩
+            // terser({
+            //     compress:true, //压缩
+            //     mangle:true, //混淆
+            // }),
+        ],
+        external: ['xlsx','jszip'],
     },
 
     //2

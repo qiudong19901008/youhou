@@ -1,5 +1,5 @@
-import DataCountEle from "../components/DataCountEle";
-import DataDownloadBtn from "../components/DataDownloadBtn";
+import DataCountEle from "./components/DataCountEle";
+import DataDownloadBtn from "./components/DataDownloadBtn";
 import Helper from "../lib/Helper";
 import { BaseNoteDataType } from "./NoteDataGetter/BaseNoteDataGetter";
 

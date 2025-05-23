@@ -44,7 +44,7 @@ class ImageListDownloader{
         for(let image of images){
             fileFolder.file(image.name + '.png', image.base64, {base64: true})
         }
-        zip.generateAsync({ type: 'blob' }).then(content => {
+        zip.generateAsync({ type: 'blob' }).then((content:Blob) => {
             FileSaver.saveAs(content, fn + '.zip')
         })
     }

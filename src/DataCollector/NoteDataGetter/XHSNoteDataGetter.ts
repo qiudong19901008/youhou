@@ -1,4 +1,3 @@
-import { f_getQueryVar } from "../../lib/functions";
 import Base, { BaseNoteDataType } from "./BaseNoteDataGetter";
 
 export interface XHSNoteDataType extends BaseNoteDataType{

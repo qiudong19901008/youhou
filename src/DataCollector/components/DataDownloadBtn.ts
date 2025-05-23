@@ -1,4 +1,5 @@
-import { FuncType } from "../lib/types";
+import { FuncType } from "../../lib/types";
+
 
 
 export default class DataDownloadBtn{

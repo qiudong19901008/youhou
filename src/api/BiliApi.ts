@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         哔哩哔哩
 // @namespace    http://tampermonkey.net/
-// @version      2023-12-22
+// @version      2025-5-23
 // @description  try to take over the world!
 // @author       You
 // @match        *://*.bilibili.com/*
@@ -14,7 +14,6 @@
 (function() {
     
     'use strict';
-    // new DataExporterContext(DataExporterTypeEnum.B站搜索);
     if(window.location.href.includes('search.bilibili.com')){
         // new DataExporterContext(DataExporterTypeEnum.B站搜索);
     }

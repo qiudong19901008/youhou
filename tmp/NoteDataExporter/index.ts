@@ -1,5 +1,6 @@
-import * as XLSX from 'xlsx';
-import { BaseNoteDataType } from '../NoteDataGetter/BaseNoteDataGetter';
+// import * as XLSX from 'xlsx';
+const XLSX = require('xlsx');
+import { BaseNoteDataType } from '../../src/DataCollector/NoteDataGetter/BaseNoteDataGetter';
 
 
 export default class NoteDataExporter{

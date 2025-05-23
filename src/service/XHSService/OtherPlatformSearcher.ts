@@ -27,14 +27,6 @@ export default class OtherPlatformSearcher extends Base{
         this._createButtons();
     }
 
-    // 获取搜索关键词
-    // private _getSearchKeyword = ()=> {
-    //     var keywordInput = document.querySelector('.input-box input.search-input') as HTMLInputElement|null;
-    //     if (!keywordInput) {
-    //         return '';
-    //     }
-    //     return keywordInput.value.trim();
-    // }
 
     private _createStyleEle = ()=>{
         // 添加搜索按钮样式
@@ -63,7 +55,7 @@ export default class OtherPlatformSearcher extends Base{
         button.href = "javascript:void(0);";
         // 设置初始链接为javascript:void(0);
         button.addEventListener("click", () => {
-            const keyword = this.getSearchKeyword();
+            const keyword = this._getSearchKeyword();
             if (keyword) {
                 // 在新窗口或标签页中打开搜索引擎链接
                 var url = engine.url + encodeURIComponent(keyword); 
@@ -77,6 +69,15 @@ export default class OtherPlatformSearcher extends Base{
             button.classList.add("bottom-row");
         }
         return button;
+    }
+
+     // // 获取搜索关键词
+    private _getSearchKeyword = ()=> {
+        var keywordInput = document.querySelector('.input-box input.search-input') as HTMLInputElement|null;
+        if (!keywordInput) {
+            return '';
+        }
+        return keywordInput.value.trim();
     }
 
 }

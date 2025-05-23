@@ -1,4 +1,4 @@
-import ImageListDownloader from '../lib/ImageListDownloader';
+import Helper from "../../lib/Helper";
 
 
 export default class NoteDownloader{
@@ -6,7 +6,6 @@ export default class NoteDownloader{
     protected downloadBtn:HTMLButtonElement;
 
     constructor(){
-        // this._getDownloadFilename()
         this.downloadBtn = this.creatDownloadBtn();
     }
 
@@ -59,7 +58,9 @@ export default class NoteDownloader{
             // 
             try{
                 downloadBtn.innerHTML = '下载中...'
-                await ImageListDownloader.run(srcList,title);
+                // Helper.downloadNotes()
+                await Helper.downloadImageList(srcList,title);
+                // await ImageListDownloader.run(srcList,title);
             }catch(e){
                 alert('下载失败');
                 throw e;

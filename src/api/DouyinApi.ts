@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         抖音
 // @namespace    http://tampermonkey.net/
-// @version      2023-12-22
+// @version      2025-5-23
 // @description  try to take over the world!
 // @author       You
 // @match        *://www.douyin.com/*/*
