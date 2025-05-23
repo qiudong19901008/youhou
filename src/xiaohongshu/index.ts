@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         小红书
 // @namespace    http://tampermonkey.net/
-// @version      2023-12-22
+// @version      2025-5-23
 // @description  try to take over the world!
 // @author       You
 // @match        *://www.xiaohongshu.com/*/*
@@ -22,7 +22,6 @@ import OtherPlatformSearcher from "./OtherPlatformSearcher";
         window.location.href.includes('/search_result') 
         || window.location.href.includes('/profile/')
     ){
-        // new DataExporterContext(DataExporterTypeEnum.小红书);
         new DataCollectorContext(PlatformTypeEnum.小红书);
     }
 
