@@ -38,6 +38,7 @@ const config = [
             // terser({
             //     compress:true, //压缩
             //     mangle:true, //混淆
+                
             // }),
         ],
         external: ['xlsx','jszip'],

@@ -12,12 +12,6 @@ export interface BaseNoteDataType{
     '作者主页':string,
 
     '是否违规':string,
-
-    // uniqueId:string,
-    // authorName:string,
-    // authorUrl:string,
-    // authorUniqueId:string,
-    // illegal:string,
 }
 
 export default abstract class BaseNoteDataGetter<T extends BaseNoteDataType>{
@@ -38,11 +32,12 @@ export default abstract class BaseNoteDataGetter<T extends BaseNoteDataType>{
 
     protected __pureStr(str:string){
         // 把#号替换掉，防止csv导出错误
-        const res = str.replace(/#/g,'jin')
-        .replace(/,/g, 'douhao')
-        .replace(/"/g, 'shuangyinhao')
-        .replace(/'/g,'danyinhao');
-        return res;
+        // const res = str.replace(/#/g,'jin')
+        // .replace(/,/g, 'douhao')
+        // .replace(/"/g, 'shuangyinhao')
+        // .replace(/'/g,'danyinhao');
+        // return res;
+        return str;
    }
 
    protected __getBaseNoteData(ele:Element){

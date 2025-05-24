@@ -15,6 +15,7 @@ export default class DataCountEle{
 
     protected constructor(){
         this._btn = this._getCountDataEle();
+        this._btn.innerText = `已采集：0 条`;
         document.body.appendChild(this._btn);
     }
 

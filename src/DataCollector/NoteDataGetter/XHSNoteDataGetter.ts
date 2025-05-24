@@ -5,7 +5,7 @@ export interface XHSNoteDataType extends BaseNoteDataType{
     // xsec_token:string,
 }
 
-class XHSGetNoteData extends Base<XHSNoteDataType>{
+class XHSNoteDataGetter extends Base<XHSNoteDataType>{
 
     public run(ele:Element):XHSNoteDataType{
         const baseData = this.__getBaseNoteData(ele);
@@ -20,7 +20,7 @@ class XHSGetNoteData extends Base<XHSNoteDataType>{
 
     private _getLikeCountStr(ele:Element){
         const likeElement = ele.querySelector('span.like-wrapper span.count') as HTMLSpanElement;
-        let likeCountStr = likeElement ? likeElement.innerText : '';
+        let likeCountStr = likeElement ? likeElement.innerText : '0';
         if(likeCountStr.endsWith('w')){
             const likeCount = parseFloat(likeCountStr.replace('w','')) * 10000;
             likeCountStr = likeCount +'';
@@ -149,4 +149,4 @@ class XHSGetNoteData extends Base<XHSNoteDataType>{
 
 }
 
-export default new XHSGetNoteData();
+export default new XHSNoteDataGetter();
