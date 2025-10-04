@@ -14,10 +14,13 @@ export default class NoteDownloader{
         let srcList:string[] = [];
         images.forEach((img,i) => {
             const url = img.getAttribute('src');
+            // if(url){
+            //     const id = url.split("/")[5].split("!")[0]
+            //     let pngUrl = `https://ci.xiaohongshu.com/${id}?imageView2/2/w/format/png`;
+            //     srcList.push(pngUrl)
+            // }
             if(url){
-                const id = url.split("/")[5].split("!")[0]
-                let pngUrl = `https://ci.xiaohongshu.com/${id}?imageView2/2/w/format/png`;
-                srcList.push(pngUrl)
+                srcList.push(url)
             }
         });
         if(srcList.length >=3){
