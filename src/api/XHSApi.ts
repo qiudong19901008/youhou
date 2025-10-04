@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      2025-5-23
 // @description  try to take over the world!
-// @author       You
+// @author       秋冬
 // @match        *://www.xiaohongshu.com/*/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require      https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js
@@ -11,11 +11,17 @@
 // @grant        none
 // ==/UserScript==
 
+
+
+
 import DataCollectorContext from "../DataCollector";
 import { PlatformTypeEnum } from "../lib/enums";
 import XHSService from "../service/XHSService";
 
+
+
 (function() {
+    
     
     
     'use strict';

@@ -1,3 +1,4 @@
+import xhsConfig from "../config/xhsConfig";
 import BaseDataCollector from "./BaseDataCollector";
 import XHSNoteDataGetter,{ XHSNoteDataType } from "./NoteDataGetter/XHSNoteDataGetter";
 
@@ -43,7 +44,7 @@ export default class XHSDataCollector extends BaseDataCollector<XHSNoteDataType>
         if(data.标题 === '无'){
             return false;
         }
-        if(parseInt(data.点赞数) < 200){
+        if(parseInt(data.点赞数) < xhsConfig.crawlDataMinLikeCount){
             return false;
         }
         return true;

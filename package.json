@@ -10,7 +10,7 @@
     "postgit": "git push",
     "excel": "rollup --config rollup.config.js",
     "clear": "rm -rf dist/",
-    "build": "npm run clear && rollup -c"
+    "build": "npm run clear && rollup -c && node script/handle_dist_xhs.js"
   },
   "author": "",
   "license": "ISC",

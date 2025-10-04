@@ -2,7 +2,6 @@ import typescript from "@rollup/plugin-typescript";
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'; // 引入 nodeResolve 插件
-// import { terser } from '@rollup/plugin-terser'; // 引入 terser 插件，用于压缩代码
 import terser from '@rollup/plugin-terser'; // 引入 terser 插件，用于压缩代码
 
 
@@ -34,12 +33,12 @@ const config = [
                     browser: true
                 }
             ),
-            // 脚本不能使用压缩
-            // terser({
-            //     compress:true, //压缩
-            //     mangle:true, //混淆
+            // 脚本因为使用了外部包XLSX，不能被混淆，否则会找不到XLSX变量
+            terser({
+                // 不能
+                mangle:false, //混淆
                 
-            // }),
+            }),
         ],
         external: ['xlsx','jszip'],
     },
