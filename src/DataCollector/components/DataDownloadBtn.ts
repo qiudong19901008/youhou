@@ -22,7 +22,6 @@ export default class DataDownloadBtn{
 
         this._btn.addEventListener("click", () => {
             func();
-            // Helper.downloadNotes([],'11')
         });
 
         document.body.appendChild(this._btn);

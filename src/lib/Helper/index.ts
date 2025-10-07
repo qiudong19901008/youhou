@@ -3,7 +3,11 @@ import ImageListDownloader from "./ImageListDownloader";
 import * as XLSX from 'xlsx';
 
 
-
+interface DownloadNotesParamsType<T extends BaseNoteDataType>{
+    platformName:string,
+    fn:string,
+    dataArr:T[]
+}
 
 
 class Helper{
@@ -77,14 +81,25 @@ class Helper{
         return finalPath.substring(0,finalPath.length-1);
     }
 
-    public downloadNotes<T extends BaseNoteDataType>(dataArr:T[],fn:string){
+    public downloadNotes<T extends BaseNoteDataType>(params:DownloadNotesParamsType<T>){
+
+        const {
+            fn,
+            platformName,
+            dataArr,
+        } = params;
 
         // 创建 Workbook 对象
         const workbook = XLSX.utils.book_new();
         
         // 创建 Worksheet 对象
-        const worksheet = XLSX.utils.json_to_sheet(dataArr);
-        
+        let worksheet = XLSX.utils.aoa_to_sheet([
+            [platformName]
+        ])
+
+        // Worksheet从第2行开始添加数据
+        XLSX.utils.sheet_add_json(worksheet,dataArr,{origin:1});
+
         // 将 Worksheet 添加到 Workbook 中
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
         

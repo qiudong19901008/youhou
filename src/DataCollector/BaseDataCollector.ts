@@ -25,6 +25,8 @@ export default abstract class BaseDataCollector<T extends BaseNoteDataType>{
         });
     }
 
+    
+    protected abstract getPlatformName():string;
 
     protected abstract tryGetSearchPageSearchKeywords():string;
     protected abstract tryGetAuthorPageAuthorName():string;
@@ -33,6 +35,7 @@ export default abstract class BaseDataCollector<T extends BaseNoteDataType>{
     protected abstract getNoteElements():NodeListOf<Element>;
     protected abstract getNoteElementData(ele:Element):T;
     protected abstract isValidNoteData(data:T):boolean;
+
 
     private _getDownloadFilename(){
         let res = this.tryGetSearchPageSearchKeywords();
@@ -45,11 +48,15 @@ export default abstract class BaseDataCollector<T extends BaseNoteDataType>{
     private _handleDownloadNotes = ()=>{
         const fn = this._getDownloadFilename();
         const notes = this._getNotes();
-        const res = notes.map((val)=>{
+        const dataArr = notes.map((val)=>{
             delete val.uniqueId;
             return val;
         })
-        Helper.downloadNotes(res,fn);
+        Helper.downloadNotes({
+            dataArr,
+            fn,
+            platformName:this.getPlatformName(),
+        });
     }
 
     private _getCollectedCount(){

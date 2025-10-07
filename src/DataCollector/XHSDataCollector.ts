@@ -8,6 +8,10 @@ import XHSNoteDataGetter,{ XHSNoteDataType } from "./NoteDataGetter/XHSNoteDataG
 export default class XHSDataCollector extends BaseDataCollector<XHSNoteDataType>{
 
     
+    protected getPlatformName(): string {
+        return '小红书';
+    }
+
     protected tryGetSearchPageSearchKeywords(){
         const keywordInputEle = document.querySelector('#search-input') as HTMLInputElement|null;
         if (!keywordInputEle) {
